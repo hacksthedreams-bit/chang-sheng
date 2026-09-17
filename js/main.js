@@ -835,6 +835,11 @@
       });
       var searchInput = $('#menu-search');
       if (searchInput) searchInput.addEventListener('input', handleSearch);
+      var searchBtn = $('#search-btn');
+      if (searchBtn) searchBtn.addEventListener('click', function () {
+        handleSearch();
+        if (searchInput) searchInput.focus();
+      });
     });
 
     updateCartUI();

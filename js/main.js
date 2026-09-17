@@ -10,8 +10,7 @@
   window.__BRAND__ = {
     name: 'Chang Sheng 昌盛酒家',
     phone: '56954663415',
-    address: 'Av. Francia N° 406, Batuco',
-    instagram: 'restaurantechangsheng'
+    address: 'Av. Francia N° 406, Batuco'
   };
 
   /* ── Product Catalog ── */
@@ -240,6 +239,26 @@
       btn.textContent = '✓ Agregado';
       setTimeout(function () { btn.classList.remove('added'); btn.textContent = 'Agregar'; }, 1200);
     });
+  }
+
+  /* ═══ RENDER "¿QUÉ SE TE ANTOJA HOY?" CATEGORY INDEX ═══ */
+  function renderAntojos() {
+    var container = $('#antojos-grid');
+    if (!container) return;
+    var html = '';
+
+    CATEGORIES.forEach(function (cat) {
+      var count = PRODUCTS.filter(function (p) { return p.catId === cat.id; }).length;
+      if (!count) return;
+      html += '<a href="#' + cat.id + '" class="antojo-card reveal-up" data-cat="' + cat.id + '">';
+      html += '<span class="antojo-card__mark" aria-hidden="true"></span>';
+      html += '<span class="antojo-card__text">';
+      html += '<span class="antojo-card__name">' + escHtml(cat.name) + '</span>';
+      html += '<span class="antojo-card__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
+      html += '</span></a>';
+    });
+
+    container.innerHTML = html;
   }
 
   /* ═══ CART LOGIC ═══ */
@@ -698,6 +717,14 @@
     counters.forEach(function (el) { observer.observe(el); });
   }
 
+  /* ═══ FOOTER YEAR ═══ */
+  function initFooterYear() {
+    var el = $('#footer-year');
+    if (!el) return;
+    var year = chileParts(new Date()).year;
+    el.innerHTML = '&copy; ' + year + ' Chang Sheng 昌盛酒家 — Todos los derechos reservados.';
+  }
+
   /* ═══ OPEN STATUS ═══ */
   function initOpenStatus() {
     var statusEl = $('#open-status');
@@ -751,7 +778,9 @@
     safe(initScrollProgress);
     safe(initCursor);
     safe(renderMenu);
+    safe(renderAntojos);
     safe(initCategoryNav);
+    safe(initFooterYear);
     safe(initReveal);
     safe(initCounters);
     safe(initOpenStatus);

@@ -194,27 +194,27 @@
     if (!container) return;
     var html = '';
 
-    CATEGORIES.forEach(function (cat, catIndex) {
+    CATEGORIES.forEach(function (cat) {
       var prods = PRODUCTS.filter(function (p) { return p.catId === cat.id; });
       if (!prods.length) return;
 
-      html += '<section class="menu-section menu-section--decor-' + (catIndex % 2 === 0 ? 'a' : 'b') + '" id="' + cat.id + '" aria-labelledby="heading-' + cat.id + '">';
+      html += '<section class="menu-section" id="' + cat.id + '" aria-labelledby="heading-' + cat.id + '">';
       html += '<div class="section-head">';
-      html += '<span class="eyebrow">' + cat.eyebrow + '</span>';
+      html += '<span class="eyebrow"><span class="eyebrow__text">' + cat.eyebrow + '</span><span class="eyebrow__line" aria-hidden="true"></span></span>';
       html += '<h3 id="heading-' + cat.id + '">' + cat.name + '</h3>';
       html += '<p>' + cat.desc + '</p>';
       html += '</div>';
       html += '<div class="product-grid">';
 
-      prods.forEach(function (p, productIndex) {
-        html += '<article class="product-card product-card--tone-' + (productIndex % 4) + '">';
+      prods.forEach(function (p) {
+        html += '<article class="product-card">';
         html += '<div class="product-card__body">';
         html += '<div class="product-card__top">';
         html += '<h4>' + escHtml(p.name) + '</h4>';
         html += '<span class="product-card__price">' + fmtPrice(p.price) + '</span>';
         html += '</div>';
         if (p.desc) html += '<p class="product-card__desc">' + escHtml(p.desc) + '</p>';
-        html += '<div class="product-card__foot"><div>';
+        html += '<div class="product-card__foot"><div class="product-card__badges">';
 
         var badgeMap = {vegetariano:'Vegetariano',picante:'Picante'};
         (p.badges || []).forEach(function (b) {
@@ -222,7 +222,10 @@
         });
 
         html += '</div>';
-        html += '<button class="add-btn" type="button" data-add="' + escHtml(p.id) + '" data-name="' + escHtml(p.name) + '" data-price="' + p.price + '" aria-label="Agregar ' + escHtml(p.name) + '">Agregar</button>';
+        html += '<button class="add-btn" type="button" data-add="' + escHtml(p.id) + '" data-name="' + escHtml(p.name) + '" data-price="' + p.price + '" aria-label="Agregar ' + escHtml(p.name) + '">';
+        html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+        html += '<span class="add-btn__label">Agregar</span>';
+        html += '</button>';
         html += '</div></div></article>';
       });
 
@@ -235,9 +238,13 @@
       var btn = e.target.closest('[data-add]');
       if (!btn) return;
       addToCart(btn.dataset.add, btn.dataset.name, parseInt(btn.dataset.price));
+      var label = btn.querySelector('.add-btn__label');
       btn.classList.add('added');
-      btn.textContent = '✓ Agregado';
-      setTimeout(function () { btn.classList.remove('added'); btn.textContent = 'Agregar'; }, 1200);
+      if (label) label.textContent = 'Agregado';
+      setTimeout(function () {
+        btn.classList.remove('added');
+        if (label) label.textContent = 'Agregar';
+      }, 1200);
     });
   }
 

@@ -193,10 +193,21 @@
     var container = $('#menu-sections');
     if (!container) return;
     var html = '';
+    var isFirst = true;
+    var dividerHTML = '<div class="menu-divider" aria-hidden="true">'
+      + '<span class="menu-divider__line"></span>'
+      + '<span class="menu-divider__mark"></span>'
+      + '<span class="menu-divider__text">Auténtica cocina cantonesa</span>'
+      + '<span class="menu-divider__mark"></span>'
+      + '<span class="menu-divider__line"></span>'
+      + '</div>';
 
     CATEGORIES.forEach(function (cat) {
       var prods = PRODUCTS.filter(function (p) { return p.catId === cat.id; });
       if (!prods.length) return;
+
+      if (!isFirst) html += dividerHTML;
+      isFirst = false;
 
       html += '<section class="menu-section" id="' + cat.id + '" aria-labelledby="heading-' + cat.id + '">';
       html += '<div class="section-head">';

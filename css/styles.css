@@ -719,9 +719,6 @@ body.cursor-visible .cursor{opacity:1}
   padding:clamp(28px,4vw,44px) clamp(12px,2vw,24px);
   border-radius:var(--radius-lg);
 }
-.menu-section + .menu-section{
-  border-top:1px solid rgba(212,168,67,.13);
-}
 .menu-section::before{
   content:'';position:absolute;inset:0;z-index:-2;pointer-events:none;
   background-image:url('../assets/decor/chapsui/pattern-tile.webp');
@@ -735,15 +732,23 @@ body.cursor-visible .cursor{opacity:1}
 
 /* Category header — sistema reutilizable (eyebrow + línea + título + descripción) */
 .section-head{
-  position:relative;
-  margin-bottom:clamp(16px,3vw,24px);
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(22px,4vw,34px) clamp(18px,3.5vw,32px);
+  margin-bottom:clamp(20px,3vw,28px);
+  border-radius:var(--radius-lg);
+  border:1px solid rgba(212,168,67,.14);
+}
+.section-head::before{
+  content:'';position:absolute;inset:0;z-index:-2;
+  background-image:url('../assets/decor/chapsui/header-banner.webp');
+  background-size:cover;background-position:right center;background-repeat:no-repeat;
+  opacity:.55;pointer-events:none;
 }
 .section-head::after{
-  content:'';position:absolute;top:-8px;right:-4px;
-  width:96px;height:74px;
-  background-image:url('../assets/decor/chapsui/clouds.webp');
-  background-size:contain;background-repeat:no-repeat;background-position:top right;
-  opacity:.08;pointer-events:none;z-index:-1;
+  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(90deg,var(--bg-section) 0%,var(--bg-section) 34%,rgba(18,16,16,.55) 62%,transparent 92%),
+    linear-gradient(180deg,rgba(14,11,9,.1),rgba(14,11,9,.5));
 }
 .section-head .eyebrow{
   display:flex;align-items:center;gap:12px;
@@ -754,11 +759,12 @@ body.cursor-visible .cursor{opacity:1}
 }
 .section-head h3{
   font-family:var(--font-display);
-  font-size:clamp(1.2rem,3vw,1.6rem);
-  font-weight:700;margin-bottom:4px;
+  font-size:clamp(1.4rem,3.6vw,2.1rem);
+  font-weight:700;margin-bottom:6px;
 }
 .section-head > p{
-  font-size:.85rem;color:var(--cream-muted);
+  font-size:.88rem;color:var(--cream-soft);
+  max-width:32ch;
 }
 
 /* Product Grid — 2 columnas en tablet/desktop, 1 en mobile */
@@ -766,6 +772,27 @@ body.cursor-visible .cursor{opacity:1}
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:14px;
+}
+
+/* Divisor ornamental entre categorías */
+.menu-divider{
+  display:flex;align-items:center;gap:16px;
+  max-width:680px;margin:clamp(28px,4vw,44px) auto 0;
+  padding:0 clamp(12px,2vw,24px);
+}
+.menu-divider__line{
+  flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,168,67,.5),transparent);
+}
+.menu-divider__mark{
+  flex-shrink:0;width:10px;height:10px;
+  border:1.5px solid var(--gold);
+}
+.menu-divider__text{
+  flex-shrink:0;
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);white-space:nowrap;
 }
 
 /* ═══ PRODUCT CARD — sistema global (aplicado a todas las categorías) ═══ */

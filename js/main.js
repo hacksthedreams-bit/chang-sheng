@@ -120,6 +120,20 @@
     {id:"bebidas",name:"Bebidas",eyebrow:"Para acompañar",desc:"Refrescos, jugos y bebidas para tu mesa."}
   ];
 
+  /* ── Miniaturas de categoría (compartidas con el nav de "Explora nuestros sabores") ── */
+  var CATEGORY_THUMBS = {
+    aperitivos: 'assets/decor/explora/cat-aperitivos.webp',
+    sopas: 'assets/decor/explora/cat-sopas.webp',
+    arroz: 'assets/decor/explora/cat-arroz.webp',
+    chaumin: 'assets/decor/explora/cat-chaumin.webp',
+    pollo: 'assets/decor/explora/cat-pollo.webp',
+    cerdo: 'assets/decor/explora/cat-cerdo.webp',
+    carne: 'assets/decor/explora/cat-carne.webp',
+    chapsui: 'assets/decor/explora/cat-chapsui.webp',
+    mariscos: 'assets/decor/explora/cat-mariscos.webp',
+    vegetariano: 'assets/decor/explora/cat-vegetariano.webp'
+  };
+
   /* ── State ── */
   var cart = [];
   var orderId = '';
@@ -268,12 +282,19 @@
     CATEGORIES.forEach(function (cat) {
       var count = PRODUCTS.filter(function (p) { return p.catId === cat.id; }).length;
       if (!count) return;
+      var thumb = CATEGORY_THUMBS[cat.id];
       html += '<a href="#' + cat.id + '" class="antojo-card reveal-up" data-cat="' + cat.id + '">';
-      html += '<span class="antojo-card__mark" aria-hidden="true"></span>';
+      if (thumb) {
+        html += '<span class="antojo-card__thumb"><img src="' + thumb + '" alt="" loading="lazy" width="72" height="72"></span>';
+      } else {
+        html += '<span class="antojo-card__thumb antojo-card__thumb--mark" aria-hidden="true"><span class="antojo-card__glyph"></span></span>';
+      }
       html += '<span class="antojo-card__text">';
       html += '<span class="antojo-card__name">' + escHtml(cat.name) + '</span>';
       html += '<span class="antojo-card__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
-      html += '</span></a>';
+      html += '</span>';
+      html += '<span class="antojo-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+      html += '</a>';
     });
 
     container.innerHTML = html;
@@ -783,9 +804,6 @@
       });
     });
 
-    safe(function () {
-      gsap.set('.separator__line', { scaleX: 1 });
-    });
   }
 
   /* ═══ INIT ═══ */

@@ -339,8 +339,9 @@ body.cursor-visible .cursor{opacity:1}
   font-family:var(--font-display);
   font-size:clamp(.82rem,1.3vw,.98rem);
   font-weight:600;
-  color:var(--cream-muted);
+  color:var(--gold-light);
   padding:0 16px;
+  transition:color .2s;
 }
 .marquee__dot{
   display:inline-flex;align-items:center;
@@ -389,15 +390,25 @@ body.cursor-visible .cursor{opacity:1}
 }
 .fusion__attrs svg{color:var(--gold);flex-shrink:0}
 
-/* ═══ SEPARATOR ═══ */
+/* ═══ SEPARATOR ═══ (ornamento de apertura/cierre de categoría, reutilizable) */
 .separator{
   display:flex;justify-content:center;
-  padding:clamp(24px,4vw,40px) clamp(16px,4vw,32px);
+  padding:clamp(32px,5vw,56px) clamp(16px,4vw,32px);
   max-width:var(--shell);margin:0 auto;
 }
 .separator__ornament{
-  width:min(280px,60%);height:auto;
-  opacity:.85;
+  width:min(560px,88%);height:auto;
+  aspect-ratio:1000/333;
+}
+.separator__ornament.reveal-up{
+  opacity:0;
+  transform:scaleX(.2);
+  transform-origin:center;
+  transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1);
+}
+.separator__ornament.reveal-up.visible{
+  opacity:1;
+  transform:scaleX(1);
 }
 
 /* ═══ SHOWCASE (horizontal scroll) ═══ */
@@ -678,6 +689,7 @@ body.cursor-visible .cursor{opacity:1}
   aspect-ratio:16/10;
   border-radius:var(--radius-lg);
   overflow:hidden;
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
 }
 .carta-header__img img{
   width:100%;height:100%;object-fit:cover;
@@ -685,7 +697,7 @@ body.cursor-visible .cursor{opacity:1}
 }
 .carta-header__img::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,var(--bg-section) -5%,transparent 38%);
+  box-shadow:inset 0 0 0 1px rgba(212,168,67,.16);
   pointer-events:none;
 }
 
@@ -1560,6 +1572,7 @@ body.cursor-visible .cursor{opacity:1}
   .marquee__track{animation:none}
   .splash__fill{animation:none;width:100%}
   .reveal-up{opacity:1;transform:none;transition:none}
+  .separator__ornament.reveal-up{opacity:1;transform:none;transition:none}
 }
 
 /* ═══ RESPONSIVE ═══ */
@@ -1573,7 +1586,6 @@ body.cursor-visible .cursor{opacity:1}
   .hours-card__grid{grid-template-columns:1fr}
   .carta-header{flex-direction:column;text-align:center}
   .carta-header__img{order:-1;width:100%}
-  .carta-header__img::after{display:none}
   .carta-header__attrs{justify-content:center}
   .carta-header__text::after{display:none}
   .section-subtitle{margin-left:auto;margin-right:auto}

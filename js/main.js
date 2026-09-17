@@ -122,16 +122,20 @@
 
   /* ── Miniaturas de categoría (compartidas con el nav de "Explora nuestros sabores") ── */
   var CATEGORY_THUMBS = {
-    aperitivos: 'assets/decor/explora/cat-aperitivos.webp',
-    sopas: 'assets/decor/explora/cat-sopas.webp',
-    arroz: 'assets/decor/explora/cat-arroz.webp',
-    chaumin: 'assets/decor/explora/cat-chaumin.webp',
-    pollo: 'assets/decor/explora/cat-pollo.webp',
-    cerdo: 'assets/decor/explora/cat-cerdo.webp',
-    carne: 'assets/decor/explora/cat-carne.webp',
-    chapsui: 'assets/decor/explora/cat-chapsui.webp',
-    mariscos: 'assets/decor/explora/cat-mariscos.webp',
-    vegetariano: 'assets/decor/explora/cat-vegetariano.webp'
+    aperitivos: 'assets/img/categorias/aperitivos.webp',
+    sopas: 'assets/img/categorias/sopas.webp',
+    arroz: 'assets/img/categorias/arroz.webp',
+    chaumin: 'assets/img/categorias/chaumin.webp',
+    pollo: 'assets/img/categorias/pollo.webp',
+    cerdo: 'assets/img/categorias/cerdo.webp',
+    carne: 'assets/img/categorias/carne.webp',
+    chapsui: 'assets/img/categorias/chapsui.webp',
+    dragon: 'assets/img/categorias/diente-de-dragon.webp',
+    mariscos: 'assets/img/categorias/mariscos.webp',
+    agridulce: 'assets/img/categorias/agridulce.webp',
+    vegetariano: 'assets/img/categorias/vegetariano.webp',
+    oferta: 'assets/img/categorias/colaciones.webp',
+    bebidas: 'assets/img/categorias/bebidas.webp'
   };
 
   /* ── State ── */
@@ -284,16 +288,13 @@
       if (!count) return;
       var thumb = CATEGORY_THUMBS[cat.id];
       html += '<a href="#' + cat.id + '" class="antojo-card reveal-up" data-cat="' + cat.id + '">';
-      if (thumb) {
-        html += '<span class="antojo-card__thumb"><img src="' + thumb + '" alt="" loading="lazy" width="72" height="72"></span>';
-      } else {
-        html += '<span class="antojo-card__thumb antojo-card__thumb--mark" aria-hidden="true"><span class="antojo-card__glyph"></span></span>';
-      }
+      html += '<img class="antojo-card__bg" src="' + thumb + '" alt="" loading="lazy" width="640" height="640">';
+      html += '<span class="antojo-card__overlay" aria-hidden="true"></span>';
       html += '<span class="antojo-card__text">';
       html += '<span class="antojo-card__name">' + escHtml(cat.name) + '</span>';
-      html += '<span class="antojo-card__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
+      html += '<span class="antojo-card__meta"><span class="antojo-card__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
+      html += '<span class="antojo-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>';
       html += '</span>';
-      html += '<span class="antojo-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
       html += '</a>';
     });
 

@@ -153,18 +153,15 @@
     {id:"gy05",catId:"gyoza",name:"Gyoza de Cerdo y Cebollín (10 und)",price:6000,desc:"Empanaditas al vapor rellenas de cerdo y cebollín.",emoji:"🥟"},
     {id:"gy06",catId:"gyoza",name:"Gyoza de Cerdo y Pimentón (10 und)",price:6000,desc:"Empanaditas al vapor rellenas de cerdo y pimentón.",emoji:"🥟"},
 
-    {id:"be01",catId:"bebidas",name:"Coca-Cola Normal (lata)",price:2000,desc:"Formato lata, solo para llevar.",emoji:"🥤"},
-    {id:"be02",catId:"bebidas",name:"Coca-Cola Zero (lata)",price:2000,desc:"Formato lata, solo para llevar.",emoji:"🥤"},
-    {id:"be03",catId:"bebidas",name:"Sprite (lata)",price:2000,desc:"Formato lata, solo para llevar.",emoji:"🥤"},
-    {id:"be04",catId:"bebidas",name:"Fanta (lata)",price:2000,desc:"Formato lata, solo para llevar.",emoji:"🥤"},
-    {id:"be05",catId:"bebidas",name:"Coca-Cola Normal 1.5L",price:3000,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be06",catId:"bebidas",name:"Coca-Cola Zero 1.5L",price:3000,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be07",catId:"bebidas",name:"Coca-Cola Normal 2L",price:3800,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be08",catId:"bebidas",name:"Coca-Cola Zero 2L",price:3800,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be09",catId:"bebidas",name:"Coca-Cola Normal 2.5L",price:4200,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be10",catId:"bebidas",name:"Coca-Cola Zero 2.5L",price:4200,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be11",catId:"bebidas",name:"Coca-Cola Normal 3L",price:4800,desc:"Formato familiar, solo para llevar.",emoji:"🥤"},
-    {id:"be12",catId:"bebidas",name:"Coca-Cola Zero 3L",price:4800,desc:"Formato familiar, solo para llevar.",emoji:"🥤"}
+  ];
+
+  /* ── Bebidas: agrupadas por formato, con sabor seleccionable ── */
+  var BEBIDA_FORMATS = [
+    {id:"lata",catId:"bebidas",name:"Lata",price:2000,emoji:"🥤",flavors:["Coca-Cola Normal","Coca-Cola Zero","Sprite","Fanta"]},
+    {id:"1-5l",catId:"bebidas",name:"1.5 L",price:3000,emoji:"🥤",flavors:["Coca-Cola Normal","Coca-Cola Zero"]},
+    {id:"2l",catId:"bebidas",name:"2 L",price:3800,emoji:"🥤",flavors:["Coca-Cola Normal","Coca-Cola Zero"]},
+    {id:"2-5l",catId:"bebidas",name:"2.5 L",price:4200,emoji:"🥤",flavors:["Coca-Cola Normal","Coca-Cola Zero"]},
+    {id:"3l",catId:"bebidas",name:"3 L",price:4800,emoji:"🥤",flavors:["Coca-Cola Normal","Coca-Cola Zero"]}
   ];
 
   /* ── Category definitions ── */
@@ -183,7 +180,7 @@
     {id:"chaumin",name:"Chaumin",eyebrow:"Fideos al wok",desc:"Tallarines salteados con verduras y la proteína que elijas."},
     {id:"sushi",name:"Sushi",eyebrow:"Rolls frescos",desc:"Variedad de rolls envueltos en nori, queso crema, sésamo o palta."},
     {id:"gyoza",name:"Gyoza",eyebrow:"Empanaditas al vapor",desc:"Rellenas en distintas combinaciones de cerdo y pollo."},
-    {id:"bebidas",name:"Para Beber",eyebrow:"Solo para llevar",desc:"Bebidas en lata y formato familiar para acompañar tu pedido para llevar."}
+    {id:"bebidas",name:"Para Beber",eyebrow:"Solo para llevar",desc:"Elige el formato y el sabor para acompañar tu pedido para llevar."}
   ];
 
   /* ── Miniaturas de categoría (compartidas con el nav de "Explora nuestros sabores") ──
@@ -239,7 +236,7 @@
     var parts = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/Santiago',
       year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', hour12: false
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
     }).formatToParts(date || new Date());
     var result = {};
     parts.forEach(function (part) { result[part.type] = part.value; });
@@ -287,7 +284,8 @@
       + '</div>';
 
     CATEGORIES.forEach(function (cat) {
-      var prods = PRODUCTS.filter(function (p) { return p.catId === cat.id; });
+      var isBebidas = cat.id === 'bebidas';
+      var prods = isBebidas ? BEBIDA_FORMATS : PRODUCTS.filter(function (p) { return p.catId === cat.id; });
       if (!prods.length) return;
 
       if (!isFirst) html += dividerHTML;
@@ -301,28 +299,54 @@
       html += '</div>';
       html += '<div class="product-grid">';
 
-      prods.forEach(function (p) {
-        html += '<article class="product-card">';
-        html += '<div class="product-card__body">';
-        html += '<div class="product-card__top">';
-        html += '<h4>' + escHtml(p.name) + '</h4>';
-        html += '<span class="product-card__price">' + fmtPrice(p.price) + '</span>';
-        html += '</div>';
-        if (p.desc) html += '<p class="product-card__desc">' + escHtml(p.desc) + '</p>';
-        html += '<div class="product-card__foot"><div class="product-card__badges">';
-
-        var badgeMap = {vegetariano:'Vegetariano',picante:'Picante'};
-        (p.badges || []).forEach(function (b) {
-          html += '<span class="badge badge--' + b + '">' + (badgeMap[b] || b) + '</span> ';
+      if (isBebidas) {
+        prods.forEach(function (f) {
+          var selectId = 'flavor-' + f.id;
+          html += '<article class="product-card product-card--format">';
+          html += '<div class="product-card__body">';
+          html += '<div class="product-card__top">';
+          html += '<h4>' + escHtml(f.name) + '</h4>';
+          html += '<span class="product-card__price">' + fmtPrice(f.price) + '</span>';
+          html += '</div>';
+          html += '<div class="format-flavor">';
+          html += '<label for="' + selectId + '" class="format-flavor__label">Sabor</label>';
+          html += '<select id="' + selectId + '" class="format-flavor__select">';
+          f.flavors.forEach(function (flavor) {
+            html += '<option value="' + escHtml(flavor) + '">' + escHtml(flavor) + '</option>';
+          });
+          html += '</select>';
+          html += '</div>';
+          html += '<div class="product-card__foot"><div class="product-card__badges"></div>';
+          html += '<button class="add-btn" type="button" data-add-format data-format-select="' + selectId + '" data-format-label="' + escHtml(f.name) + '" data-format-price="' + f.price + '" aria-label="Agregar bebida ' + escHtml(f.name) + '">';
+          html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+          html += '<span class="add-btn__label">Agregar</span>';
+          html += '</button>';
+          html += '</div></div></article>';
         });
+      } else {
+        prods.forEach(function (p) {
+          html += '<article class="product-card">';
+          html += '<div class="product-card__body">';
+          html += '<div class="product-card__top">';
+          html += '<h4>' + escHtml(p.name) + '</h4>';
+          html += '<span class="product-card__price">' + fmtPrice(p.price) + '</span>';
+          html += '</div>';
+          if (p.desc) html += '<p class="product-card__desc">' + escHtml(p.desc) + '</p>';
+          html += '<div class="product-card__foot"><div class="product-card__badges">';
 
-        html += '</div>';
-        html += '<button class="add-btn" type="button" data-add="' + escHtml(p.id) + '" data-name="' + escHtml(p.name) + '" data-price="' + p.price + '" aria-label="Agregar ' + escHtml(p.name) + '">';
-        html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-        html += '<span class="add-btn__label">Agregar</span>';
-        html += '</button>';
-        html += '</div></div></article>';
-      });
+          var badgeMap = {vegetariano:'Vegetariano',picante:'Picante'};
+          (p.badges || []).forEach(function (b) {
+            html += '<span class="badge badge--' + b + '">' + (badgeMap[b] || b) + '</span> ';
+          });
+
+          html += '</div>';
+          html += '<button class="add-btn" type="button" data-add="' + escHtml(p.id) + '" data-name="' + escHtml(p.name) + '" data-price="' + p.price + '" aria-label="Agregar ' + escHtml(p.name) + '">';
+          html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
+          html += '<span class="add-btn__label">Agregar</span>';
+          html += '</button>';
+          html += '</div></div></article>';
+        });
+      }
 
       html += '</div></section>';
     });
@@ -330,6 +354,25 @@
     container.innerHTML = html;
 
     container.addEventListener('click', function (e) {
+      var formatBtn = e.target.closest('[data-add-format]');
+      if (formatBtn) {
+        var select = document.getElementById(formatBtn.dataset.formatSelect);
+        var flavor = select ? select.value : '';
+        var label = formatBtn.dataset.formatLabel;
+        var price = parseInt(formatBtn.dataset.formatPrice);
+        var id = 'bev-' + formatBtn.dataset.formatSelect + '-' + flavor;
+        var name = flavor + ' — ' + label;
+        addToCart(id, name, price);
+        var btnLabel = formatBtn.querySelector('.add-btn__label');
+        formatBtn.classList.add('added');
+        if (btnLabel) btnLabel.textContent = 'Agregado';
+        setTimeout(function () {
+          formatBtn.classList.remove('added');
+          if (btnLabel) btnLabel.textContent = 'Agregar';
+        }, 1200);
+        return;
+      }
+
       var btn = e.target.closest('[data-add]');
       if (!btn) return;
       addToCart(btn.dataset.add, btn.dataset.name, parseInt(btn.dataset.price));
@@ -350,7 +393,9 @@
     var html = '';
 
     CATEGORIES.forEach(function (cat) {
-      var count = PRODUCTS.filter(function (p) { return p.catId === cat.id; }).length;
+      var count = cat.id === 'bebidas'
+        ? BEBIDA_FORMATS.reduce(function (s, f) { return s + f.flavors.length; }, 0)
+        : PRODUCTS.filter(function (p) { return p.catId === cat.id; }).length;
       if (!count) return;
       var thumb = CATEGORY_THUMBS[cat.id];
       if (!thumb) return;
@@ -835,26 +880,32 @@
   }
 
   /* ═══ OPEN STATUS ═══ */
-  function initOpenStatus() {
+  function updateHoursStatus() {
     var statusEl = $('#open-status');
-    if (!statusEl) return;
-
-    var now = new Date();
-    var chile = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'America/Santiago', hour: '2-digit', minute: '2-digit', hour12: false
-    }).formatToParts(now);
-    var part = {};
-    chile.forEach(function (item) { part[item.type] = item.value; });
-    var hour = part.hour === '24' ? 0 : parseInt(part.hour, 10);
-    var min = parseInt(part.minute, 10);
+    var clockEl = $('#live-clock');
+    var p = chileParts(new Date());
+    var hour = parseInt(p.hour, 10);
+    var min = parseInt(p.minute, 10);
     var timeNum = hour * 60 + min;
 
-    var openTime = 11 * 60 + 30;
-    var closeTime = 22 * 60 + 30;
-    var isOpen = timeNum >= openTime && timeNum < closeTime;
+    if (clockEl) {
+      var timeSpan = clockEl.querySelector('.hours-card__clock-time');
+      if (timeSpan) timeSpan.textContent = p.hour + ':' + p.minute + ':' + p.second;
+    }
 
-    statusEl.className = 'hours-card__status ' + (isOpen ? 'open' : 'closed');
-    statusEl.textContent = isOpen ? 'Abierto ahora' : 'Cerrado — Abrimos a las 11:30';
+    if (statusEl) {
+      var openTime = 11 * 60 + 30;
+      var closeTime = 22 * 60 + 30;
+      var isOpen = timeNum >= openTime && timeNum < closeTime;
+      statusEl.className = 'hours-card__status ' + (isOpen ? 'open' : 'closed');
+      statusEl.textContent = isOpen ? 'Abierto ahora' : 'Cerrado — Abrimos a las 11:30';
+    }
+  }
+
+  function initOpenStatus() {
+    if (!$('#open-status') && !$('#live-clock')) return;
+    updateHoursStatus();
+    setInterval(updateHoursStatus, 1000);
   }
 
   /* ═══ GSAP ANIMATIONS ═══ */

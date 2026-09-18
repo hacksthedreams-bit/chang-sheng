@@ -208,6 +208,9 @@
   var cart = [];
   var orderId = '';
   var cartNotes = '';
+  var orderType = 'retiro'; /* 'retiro' | 'despacho' */
+  var deliveryAddress = '';
+  var deliveryGeo = null; /* {lat,lng,link} cuando el cliente comparte su ubicación */
   var lastFocusedElement = null;
 
   /* ── DOM Helpers ── */
@@ -432,6 +435,9 @@
 
     if (cart.length === 0) {
       orderId = '';
+      orderType = 'retiro';
+      deliveryAddress = '';
+      deliveryGeo = null;
       cartBody.innerHTML = '<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg><p>Tu pedido está vacío</p><p style="font-size:.85rem;margin-top:.5rem;color:var(--text-3)">Agrega platos desde nuestra carta</p></div>';
       if (cartFooter) cartFooter.classList.add('is-hidden');
       return;
@@ -453,6 +459,21 @@
       html += '</div></li>';
     });
     html += '</ul>';
+
+    // Fulfillment (retiro / despacho + ubicación)
+    html += '<div class="fulfillment">';
+    html += '<h3>¿Cómo quieres tu pedido?</h3>';
+    html += '<div class="segmented" role="group" aria-label="Tipo de pedido">';
+    html += '<button type="button" class="seg-btn' + (orderType === 'retiro' ? ' active' : '') + '" data-order-type="retiro" aria-pressed="' + (orderType === 'retiro') + '">🛍️ Retiro en local</button>';
+    html += '<button type="button" class="seg-btn' + (orderType === 'despacho' ? ' active' : '') + '" data-order-type="despacho" aria-pressed="' + (orderType === 'despacho') + '">🛵 Despacho a domicilio</button>';
+    html += '</div>';
+    html += '<div class="fulfillment-detail' + (orderType === 'despacho' ? ' show' : '') + '" id="fulfillment-detail">';
+    html += '<label for="cart-address">Dirección de entrega *</label>';
+    html += '<input type="text" id="cart-address" placeholder="Ej: Av. Francia 123, Batuco" maxlength="240" value="' + escHtml(deliveryAddress) + '">';
+    html += '<button type="button" class="geo-btn" id="geo-btn">📍 Usar mi ubicación actual</button>';
+    html += '<p class="fulfillment-error" id="fulfillment-error" role="status" aria-live="polite">' + (deliveryGeo ? 'Ubicación capturada ✓' : '') + '</p>';
+    html += '</div>';
+    html += '</div>';
 
     // Notes
     html += '<div class="notes-field"><label for="cart-notes">Observaciones opcionales</label>';
@@ -481,7 +502,60 @@
     var notes = $('#cart-notes');
     if (notes) notes.addEventListener('input', function () { cartNotes = notes.value; updateWaLink(); });
 
+    $$('[data-order-type]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        orderType = btn.dataset.orderType;
+        renderCart();
+      });
+    });
+    var addressInput = $('#cart-address');
+    if (addressInput) addressInput.addEventListener('input', function () {
+      deliveryAddress = addressInput.value;
+      updateWaLink();
+    });
+    var geoBtn = $('#geo-btn');
+    if (geoBtn) geoBtn.addEventListener('click', captureDeliveryLocation);
+
     updateWaLink();
+  }
+
+  /* ═══ GEOLOCATION (despacho a domicilio) ═══ */
+  function captureDeliveryLocation() {
+    var errEl = $('#fulfillment-error');
+    var geoBtn = $('#geo-btn');
+    if (!navigator.geolocation) {
+      if (errEl) errEl.textContent = 'Tu navegador no permite compartir ubicación. Escribe tu dirección manualmente.';
+      return;
+    }
+    if (errEl) errEl.textContent = 'Obteniendo tu ubicación…';
+    if (geoBtn) geoBtn.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var lat = pos.coords.latitude.toFixed(6);
+      var lng = pos.coords.longitude.toFixed(6);
+      deliveryGeo = { lat: lat, lng: lng, link: 'https://www.google.com/maps?q=' + lat + ',' + lng };
+
+      var addressInput = $('#cart-address');
+      if (addressInput) {
+        var current = addressInput.value.trim();
+        addressInput.value = current
+          ? current + ' — Ubicación GPS: ' + deliveryGeo.link
+          : 'Ubicación GPS: ' + deliveryGeo.link;
+        deliveryAddress = addressInput.value;
+      }
+      if (errEl) errEl.textContent = 'Ubicación capturada ✓';
+      if (geoBtn) geoBtn.disabled = false;
+      updateWaLink();
+    }, function (err) {
+      var msg = 'No se pudo obtener tu ubicación. Escribe tu dirección manualmente.';
+      if (err) {
+        if (err.code === 1) msg = 'Permiso de ubicación denegado. Escribe tu dirección manualmente.';
+        else if (err.code === 2) msg = 'Ubicación no disponible en este momento. Escribe tu dirección manualmente.';
+        else if (err.code === 3) msg = 'Se agotó el tiempo de espera. Intenta de nuevo o escribe tu dirección.';
+      }
+      if (errEl) errEl.textContent = msg;
+      if (geoBtn) geoBtn.disabled = false;
+    }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
   }
 
   function updateWaLink() {
@@ -490,6 +564,10 @@
     lines.push('ID: ' + orderId);
     lines.push('ORIGEN: PAGINA_WEB');
     lines.push('FECHA_CHILE: ' + formatChileDateTime(new Date()));
+    lines.push('TIPO_PEDIDO: ' + (orderType === 'despacho' ? 'DESPACHO_A_DOMICILIO' : 'RETIRO_EN_LOCAL'));
+    if (orderType === 'despacho') {
+      lines.push('DIRECCION: ' + (deliveryAddress.trim() || 'No especificada'));
+    }
     lines.push('\n*PRODUCTOS*');
     cart.forEach(function (item, i) {
       var line = (i + 1) + '. ' + item.qty + ' × ' + item.name + ' — ' + fmtPrice(item.price * item.qty);
@@ -927,6 +1005,16 @@
       if (searchBtn) searchBtn.addEventListener('click', function () {
         handleSearch();
         if (searchInput) searchInput.focus();
+      });
+      var cartWaBtn = $('#cart-wa-btn');
+      if (cartWaBtn) cartWaBtn.addEventListener('click', function (e) {
+        if (orderType === 'despacho' && !deliveryAddress.trim()) {
+          e.preventDefault();
+          var errEl = $('#fulfillment-error');
+          if (errEl) errEl.textContent = 'Ingresa tu dirección o comparte tu ubicación para continuar.';
+          var addressInput = $('#cart-address');
+          if (addressInput) addressInput.focus();
+        }
       });
     });
 

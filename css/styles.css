@@ -1616,6 +1616,17 @@ body.cursor-visible .cursor{opacity:1}
 }
 .fulfillment-detail select:focus,.fulfillment-detail input[type="text"]:focus{outline:2px solid rgba(196,154,91,.35);outline-offset:1px}
 .fulfillment-error{min-height:18px;margin-top:7px;color:#F87171;font-size:.76rem;font-weight:600}
+.geo-btn{
+  margin-top:10px;width:100%;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 12px;
+  border:1px dashed rgba(212,168,67,.55);border-radius:var(--radius-sm);
+  background:transparent;color:var(--gold);
+  font-size:.82rem;font-weight:600;
+  transition:background .15s,opacity .15s;
+}
+.geo-btn:hover{background:rgba(212,168,67,.12)}
+.geo-btn:disabled{opacity:.6;cursor:wait}
 .notes-field{margin-top:12px}
 .notes-field textarea{
   width:100%;padding:12px;

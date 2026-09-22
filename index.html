@@ -65,7 +65,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20260933">
+<link rel="stylesheet" href="css/styles.css?v=20260935">
 </head>
 <body>
 
@@ -435,12 +435,13 @@
         </ul>
       </div>
       <div class="carta-header__img reveal-up">
-        <img src="assets/img/hero-gastronomico-explora.webp" alt="Wok cantonés con carne salteada y vegetales, servido con palillos — cocina Chang Sheng" width="1600" height="900" loading="lazy" decoding="async">
+        <img src="assets/img/explora-chapsui-arroz.webp" alt="Chapsui de carne con arroz servido en Chang Sheng" width="1536" height="1024" loading="lazy" decoding="async">
       </div>
     </div>
 
     <!-- Search -->
     <div class="search-wrap reveal-up">
+      <h3 class="search-wrap__title">Encuentra tu próximo plato</h3>
       <div class="search-field">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <label class="sr-only" for="menu-search">Buscar en la carta</label>
@@ -452,72 +453,33 @@
       </div>
       <p class="search-note">Los precios corresponden a la carta vigente. La disponibilidad se confirma al enviar el pedido por WhatsApp.</p>
       <p class="result-count" id="result-count" aria-live="polite"></p>
-    </div>
-
-    <!-- Category Nav -->
-    <div class="cat-nav-wrap" id="cat-nav-wrap">
-      <nav class="cat-nav" id="cat-nav" aria-label="Categorías de la carta">
-        <a href="#colaciones" class="cat-link" data-cat="colaciones">
-          <span class="cat-link__thumb"><img src="assets/img/categorias/colaciones.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Colaciones</span>
+      <nav class="quick-filters" aria-label="Accesos rápidos a categorías">
+        <a href="#combos" class="quick-filter-link" data-cat="combos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15" aria-hidden="true"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          Más pedidos
         </a>
-        <a href="#combos" class="cat-link" data-cat="combos">
-          <span class="cat-link__thumb cat-link__thumb--mark" aria-hidden="true">🍽️</span>
-          <span class="cat-link__name">Menús</span>
+        <a href="#carne" class="quick-filter-link" data-cat="carne">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15" aria-hidden="true"><path d="M17 3c-3 0-5.5 2-6.5 4.5C7 7 4 9.5 4 13a6 6 0 0 0 10.9 3.5C17.8 16 20 13.3 20 10c0-1-.3-2-.8-2.8"/><circle cx="15" cy="9" r="1"/></svg>
+          Carnes
         </a>
-        <a href="#aperitivos" class="cat-link" data-cat="aperitivos">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-aperitivos.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Aperitivos</span>
+        <a href="#mariscos" class="quick-filter-link" data-cat="mariscos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15" aria-hidden="true"><path d="M4 11a8 8 0 0 0 16 0Z"/><path d="M4 11c0-.6.4-1 1-1h14c.6 0 1 .4 1 1"/><path d="M18 3l2 2-6 6M20.5 2.5l-3 3"/></svg>
+          Mariscos
         </a>
-        <a href="#sopas" class="cat-link" data-cat="sopas">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-sopas.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Sopas</span>
+        <a href="#arroz" class="quick-filter-link" data-cat="arroz">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8 12h8M12 8v8"/></svg>
+          Arroces
         </a>
-        <a href="#arroz" class="cat-link" data-cat="arroz">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-arroz.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Arroz</span>
-        </a>
-        <a href="#dragon" class="cat-link" data-cat="dragon">
-          <span class="cat-link__thumb"><img src="assets/img/categorias/diente-de-dragon.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">D. de Dragón</span>
-        </a>
-        <a href="#chapsui" class="cat-link" data-cat="chapsui">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-chapsui.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Chapsui</span>
-        </a>
-        <a href="#pollo" class="cat-link" data-cat="pollo">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-pollo.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Pollos</span>
-        </a>
-        <a href="#cerdo" class="cat-link" data-cat="cerdo">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-cerdo.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Cerdos</span>
-        </a>
-        <a href="#mariscos" class="cat-link" data-cat="mariscos">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-mariscos.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Mariscos</span>
-        </a>
-        <a href="#carne" class="cat-link" data-cat="carne">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-carne.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Vacunos</span>
-        </a>
-        <a href="#chaumin" class="cat-link" data-cat="chaumin">
-          <span class="cat-link__thumb"><img src="assets/decor/explora/cat-chaumin.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Chaumín</span>
-        </a>
-        <a href="#sushi" class="cat-link" data-cat="sushi">
-          <span class="cat-link__thumb cat-link__thumb--mark" aria-hidden="true">🍣</span>
-          <span class="cat-link__name">Sushi</span>
-        </a>
-        <a href="#gyoza" class="cat-link" data-cat="gyoza">
-          <span class="cat-link__thumb cat-link__thumb--mark" aria-hidden="true">🥟</span>
-          <span class="cat-link__name">Gyoza</span>
-        </a>
-        <a href="#bebidas" class="cat-link" data-cat="bebidas">
-          <span class="cat-link__thumb"><img src="assets/img/categorias/bebidas.webp" alt="" loading="lazy" width="72" height="72"></span>
-          <span class="cat-link__name">Bebidas</span>
+        <a href="#sopas" class="quick-filter-link" data-cat="sopas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="15" height="15" aria-hidden="true"><path d="M3 12h18l-1.5 6a2 2 0 0 1-2 1.5H6.5a2 2 0 0 1-2-1.5z"/><path d="M8 12V8M12 12V6M16 12V8"/></svg>
+          Sopas
         </a>
       </nav>
+    </div>
+
+    <!-- Category Nav — generado por JS a partir de los datos reales de productos (ver renderCatNav en main.js) -->
+    <div class="cat-nav-wrap" id="cat-nav-wrap">
+      <nav class="cat-nav" id="cat-nav" aria-label="Categorías de la carta"></nav>
     </div>
 
     <!-- Menu Sections — generated by JS from product data -->
@@ -756,6 +718,6 @@
 <!-- ═══ SCRIPTS ═══ -->
 <script defer src="lib/gsap.min.js?v=20260916"></script>
 <script defer src="lib/ScrollTrigger.min.js?v=20260916"></script>
-<script defer src="js/main.js?v=20260927"></script>
+<script defer src="js/main.js?v=20260928"></script>
 </body>
 </html>

@@ -795,7 +795,10 @@ body.cursor-visible .cursor{opacity:1}
 
 /* ═══ CARTA SECTION ═══ */
 .section--carta{
-  position:relative;isolation:isolate;overflow:hidden;
+  /* overflow visible a propósito: contiene el nav sticky de categorías.
+     El bleed horizontal de la ornamentación ya queda contenido por
+     overflow-x:hidden en <body>, así que no se pierde el recorte visual. */
+  position:relative;isolation:isolate;
   background:var(--bg-section);
   padding-bottom:clamp(48px,8vw,80px);
 }
@@ -882,6 +885,11 @@ body.cursor-visible .cursor{opacity:1}
 
 /* Search */
 .search-wrap{margin-bottom:16px}
+.search-wrap__title{
+  font-family:var(--font-display);
+  font-size:clamp(1.05rem,2vw,1.3rem);font-weight:700;
+  color:var(--cream);margin-bottom:14px;
+}
 .search-field{
   display:flex;align-items:center;gap:10px;
   background:var(--bg-card);
@@ -918,7 +926,33 @@ body.cursor-visible .cursor{opacity:1}
   padding:4px 0 0;
 }
 
-/* Category Nav — mini tarjetas visuales con miniatura */
+/* Quick filters — accesos rápidos hacia categorías de la carta */
+.quick-filters{
+  display:flex;gap:8px;
+  margin-top:14px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.quick-filters::-webkit-scrollbar{display:none}
+.quick-filter-link{
+  display:inline-flex;align-items:center;gap:7px;flex-shrink:0;
+  padding:8px 16px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  font-size:.78rem;font-weight:600;
+  color:var(--cream-soft);
+  transition:background-color .2s,border-color .2s,color .2s;
+}
+.quick-filter-link svg{color:var(--gold);flex-shrink:0}
+.quick-filter-link:hover{border-color:rgba(212,168,67,.5);color:var(--cream)}
+.quick-filter-link.active{
+  background:rgba(212,168,67,.14);
+  border-color:var(--gold);
+  color:var(--gold-light);
+}
+
+/* Category Nav — tarjetas horizontales con imagen, nombre y cantidad real de platos */
 .cat-nav-wrap{
   position:sticky;top:0;z-index:90;isolation:isolate;overflow:hidden;
   background:var(--bg-section);
@@ -936,54 +970,59 @@ body.cursor-visible .cursor{opacity:1}
 }
 .cat-nav-wrap.scrolled{box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .cat-nav{
-  display:flex;gap:10px;
+  display:flex;gap:12px;
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
-  padding:14px 0;
+  padding:14px 4px;
   scroll-snap-type:x proximity;
 }
 .cat-nav::-webkit-scrollbar{display:none}
 .cat-link{
   flex:0 0 auto;
   scroll-snap-align:start;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  width:78px;
-  padding:6px 4px 8px;
-  border-radius:var(--radius-sm);
-  font-size:.72rem;font-weight:600;
-  color:var(--cream-muted);
-  text-align:center;
-  white-space:nowrap;
-  transition:color .2s;
+  display:flex;align-items:center;gap:10px;
+  width:198px;
+  padding:8px 12px 8px 8px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  color:var(--cream-soft);
+  transition:border-color .2s,background-color .2s,transform .2s;
 }
 .cat-link__thumb{
-  width:64px;height:64px;flex-shrink:0;
-  border-radius:50%;overflow:hidden;
-  border:1.5px solid var(--border);
-  transition:border-color .2s,transform .2s;
+  width:52px;height:52px;flex-shrink:0;
+  border-radius:var(--radius-sm);overflow:hidden;
   position:relative;
 }
 .cat-link__thumb img{width:100%;height:100%;object-fit:cover}
 .cat-link__thumb--mark{
   display:flex;align-items:center;justify-content:center;
-  font-size:26px;line-height:1;
+  font-size:22px;line-height:1;
   background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.05));
 }
-.cat-link__name{overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.cat-link:hover .cat-link__thumb{border-color:rgba(212,168,67,.55);transform:translateY(-2px)}
-.cat-link:hover{color:var(--gold)}
-.cat-link.active{color:var(--gold)}
-.cat-link.active .cat-link__thumb{
+.cat-link__body{
+  flex:1;min-width:0;
+  display:flex;flex-direction:column;gap:2px;
+}
+.cat-link__name{
+  font-size:.82rem;font-weight:700;color:var(--cream);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;
+}
+.cat-link__count{font-size:.7rem;color:var(--cream-muted)}
+.cat-link__arrow{
+  flex-shrink:0;color:var(--gold);
+  opacity:.6;transform:translateX(0);
+  transition:opacity .2s,transform .2s;
+}
+.cat-link:hover{border-color:rgba(212,168,67,.4);transform:translateY(-2px)}
+.cat-link:hover .cat-link__arrow{opacity:1;transform:translateX(2px)}
+.cat-link.active{
   border-color:var(--gold);
-  box-shadow:0 0 0 3px rgba(212,168,67,.14);
+  background:rgba(212,168,67,.08);
 }
-.cat-link.active .cat-link__name{position:relative}
-.cat-link.active .cat-link__name::after{
-  content:'';position:absolute;left:50%;bottom:-4px;
-  width:16px;height:2px;transform:translateX(-50%);
-  background:var(--gold);border-radius:2px;
-}
+.cat-link.active .cat-link__name{color:var(--gold-light)}
+.cat-link.active .cat-link__arrow{opacity:1}
 
 /* ═══ CATEGORY SECTION (encabezado + grid de productos) ═══ */
 .menu-section{
@@ -1818,7 +1857,8 @@ body.cursor-visible .cursor{opacity:1}
   .footer-grid{grid-template-columns:1fr 1fr}
   .hours-card__grid{grid-template-columns:1fr}
   .carta-header{flex-direction:column;text-align:center}
-  .carta-header__img{order:-1;width:100%}
+  .carta-header__img{order:-1;width:100%;aspect-ratio:auto;height:clamp(180px,42vw,240px)}
+  .quick-filters{justify-content:flex-start}
   .carta-header__attrs{justify-content:center}
   .carta-header__text::after{display:none}
   .section-subtitle{margin-left:auto;margin-right:auto}

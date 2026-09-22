@@ -413,6 +413,48 @@
     container.innerHTML = html;
   }
 
+  /* ═══ RENDER CATEGORY NAV DE "EXPLORA NUESTROS SABORES" ═══
+     Tarjetas horizontales con imagen real, nombre y cantidad de platos
+     calculada desde PRODUCTS — nunca hardcodeada, para que no se desactualice. */
+  var CAT_NAV_LABELS = {
+    combos: 'Menús',
+    aperitivos: 'Aperitivos',
+    dragon: 'D. de Dragón',
+    mariscos: 'Mariscos',
+    bebidas: 'Bebidas'
+  };
+  var CAT_NAV_MARKS = { combos: '🍽️', sushi: '🍣', gyoza: '🥟' };
+
+  function renderCatNav() {
+    var nav = $('#cat-nav');
+    if (!nav) return;
+    var html = '';
+
+    CATEGORIES.forEach(function (cat) {
+      var count = cat.id === 'bebidas'
+        ? BEBIDA_FORMATS.reduce(function (s, f) { return s + f.flavors.length; }, 0)
+        : PRODUCTS.filter(function (p) { return p.catId === cat.id; }).length;
+      if (!count) return;
+      var label = CAT_NAV_LABELS[cat.id] || cat.name;
+      var thumb = CATEGORY_THUMBS[cat.id];
+
+      html += '<a href="#' + cat.id + '" class="cat-link" data-cat="' + cat.id + '">';
+      if (thumb) {
+        html += '<span class="cat-link__thumb"><img src="' + thumb + '" alt="" loading="lazy" width="52" height="52"></span>';
+      } else {
+        html += '<span class="cat-link__thumb cat-link__thumb--mark" aria-hidden="true">' + (CAT_NAV_MARKS[cat.id] || '🥢') + '</span>';
+      }
+      html += '<span class="cat-link__body">';
+      html += '<span class="cat-link__name">' + escHtml(label) + '</span>';
+      html += '<span class="cat-link__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
+      html += '</span>';
+      html += '<span class="cat-link__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>';
+      html += '</a>';
+    });
+
+    nav.innerHTML = html;
+  }
+
   /* ═══ CART LOGIC ═══ */
   function cartTotal() { return cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0); }
   function cartCount() { return cart.reduce(function (s, i) { return s + i.qty; }, 0); }
@@ -715,6 +757,7 @@
   /* ═══ CATEGORY NAVIGATION ═══ */
   function initCategoryNav() {
     var links = $$('.cat-link');
+    var quickFilterLinks = $$('.quick-filter-link');
     var catNavWrap = $('#cat-nav-wrap');
     var catNavScroller = $('#cat-nav');
 
@@ -724,14 +767,19 @@
       catNavScroller.scrollTo({ left: target, behavior: 'smooth' });
     }
 
-    links.forEach(function (link) {
+    function scrollToCategory(catId) {
+      var target = document.getElementById(catId);
+      if (target && catNavWrap) {
+        var offset = catNavWrap.offsetHeight + 12;
+        var absoluteTop = target.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: absoluteTop - offset, behavior: 'smooth' });
+      }
+    }
+
+    [].slice.call(links).concat([].slice.call(quickFilterLinks)).forEach(function (link) {
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        var target = document.getElementById(link.dataset.cat);
-        if (target && catNavWrap) {
-          var offset = catNavWrap.offsetHeight + 12;
-          window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
-        }
+        scrollToCategory(link.dataset.cat);
       });
     });
 
@@ -740,6 +788,7 @@
         if (entry.isIntersecting) {
           var id = entry.target.id;
           links.forEach(function (l) { l.classList.toggle('active', l.dataset.cat === id); });
+          quickFilterLinks.forEach(function (l) { l.classList.toggle('active', l.dataset.cat === id); });
           centerLinkHorizontally(document.querySelector('.cat-link[data-cat="' + id + '"]'));
         }
       });
@@ -947,6 +996,7 @@
     safe(initCursor);
     safe(renderMenu);
     safe(renderAntojos);
+    safe(renderCatNav);
     safe(initCategoryNav);
     safe(initFooterYear);
     safe(initReveal);

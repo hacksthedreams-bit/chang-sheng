@@ -1288,7 +1288,7 @@ body.cursor-visible .cursor{opacity:1}
 /* ═══ TRUST STRIP ═══ */
 .trust-strip{
   position:relative;isolation:isolate;overflow:hidden;
-  padding:clamp(40px,6vw,64px) 0;
+  padding:clamp(36px,5.5vw,56px) 0;
   background:var(--bg-section);
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
@@ -1301,11 +1301,23 @@ body.cursor-visible .cursor{opacity:1}
 }
 .trust-strip__inner{
   display:flex;
-  justify-content:space-around;
-  flex-wrap:wrap;gap:32px;
+  justify-content:center;
+  align-items:stretch;
+  flex-wrap:wrap;
   text-align:center;
 }
-.trust-item{display:flex;flex-direction:column;align-items:center}
+.trust-item{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 clamp(18px,4vw,48px);
+}
+.trust-item__icon{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);margin-bottom:12px;
+}
+.trust-strip__divider{
+  width:1px;align-self:stretch;
+  background:var(--border);
+}
 .trust-item__num{
   font-family:var(--font-display);
   font-size:clamp(2rem,4vw,3rem);
@@ -1324,7 +1336,7 @@ body.cursor-visible .cursor{opacity:1}
 }
 .trust-item__label{
   font-size:.78rem;color:var(--cream-muted);
-  margin-top:4px;
+  margin-top:6px;
 }
 
 /* ═══ STEPS ═══ */
@@ -1338,34 +1350,57 @@ body.cursor-visible .cursor{opacity:1}
   background-size:240px;background-repeat:repeat;
   opacity:.03;mix-blend-mode:screen;
 }
-.steps-grid{
+.steps-panel{
+  position:relative;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:24px;margin-top:40px;
-}
-.step-card{
-  text-align:center;padding:clamp(24px,4vw,40px) 24px;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(20px,3vw,32px);
+  margin-top:clamp(28px,4vw,40px);
+  padding:clamp(32px,5vw,48px) clamp(20px,3.5vw,40px) clamp(28px,4vw,36px);
   background:var(--bg-card);
   border:1px solid var(--border);
   border-radius:var(--radius-lg);
-  transition:border-color .3s,transform .3s;
 }
-.step-card:hover{border-color:var(--gold);transform:translateY(-3px)}
-.step-card__num{
+.steps-track{
+  position:absolute;
+  top:calc(clamp(32px,5vw,48px) + 22px);
+  left:16.6667%;right:16.6667%;
+  height:2px;z-index:1;
+  background:linear-gradient(90deg,rgba(212,168,67,.3),var(--gold) 20%,var(--gold) 80%,rgba(212,168,67,.3));
+}
+.step-col{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+}
+.step-num{
+  position:relative;
   display:inline-flex;align-items:center;justify-content:center;
-  width:48px;height:48px;
+  width:44px;height:44px;
   background:var(--gold);color:var(--bg);
   border-radius:50%;
-  font-weight:700;font-size:1.1rem;
-  margin-bottom:16px;
+  font-family:var(--font-display);font-weight:700;font-size:1.05rem;
+  box-shadow:0 0 0 5px var(--bg-card);
+  margin-bottom:20px;
 }
-.step-card h3{
-  font-size:1rem;font-weight:600;
+.step-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;
+  color:var(--gold);
+  margin-bottom:14px;
+}
+.step-col h3{
+  font-family:var(--font-display);
+  font-size:1.05rem;font-weight:700;color:var(--cream);
   margin-bottom:8px;
 }
-.step-card p{
-  font-size:.85rem;color:var(--cream-muted);
-  line-height:1.6;
+.step-col p{
+  font-size:.85rem;color:var(--cream-soft);
+  line-height:1.6;max-width:30ch;
+}
+.steps-cta{
+  display:flex;justify-content:center;
+  margin-top:clamp(28px,4vw,36px);
 }
 
 /* ═══ LOCATION ═══ */
@@ -2086,7 +2121,17 @@ body.cursor-visible .cursor{opacity:1}
   .product-grid{grid-template-columns:1fr}
   .gallery-grid{grid-template-columns:1fr 1fr}
   .trust-strip__inner{flex-direction:column;gap:20px}
-  .steps-grid{grid-template-columns:1fr}
+  .trust-strip__divider{display:none}
+  .steps-panel{grid-template-columns:1fr;gap:0}
+  .steps-track{display:none}
+  .step-col{padding-bottom:36px}
+  .step-col:not(:last-child)::after{
+    content:'';position:absolute;
+    left:50%;bottom:0;
+    width:2px;height:36px;
+    background:var(--gold);opacity:.5;
+    transform:translateX(-50%);
+  }
   .antojos-grid{grid-template-columns:1fr 1fr}
   .custom-options{grid-template-columns:1fr}
   .form-grid{grid-template-columns:1fr}

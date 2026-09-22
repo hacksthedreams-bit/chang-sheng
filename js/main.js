@@ -977,7 +977,7 @@
     if (prefersReduced) return;
 
     safe(function () {
-      gsap.from('.hero__visual img', {
+      gsap.from('.hero__bg img', {
         opacity: 0,
         y: 20,
         duration: 1,

@@ -2109,7 +2109,6 @@ body.cursor-visible .cursor{opacity:1}
   .hours-clock{justify-content:center}
   .hours-clock__body{align-items:flex-start}
   .footer-grid{grid-template-columns:1fr 1fr}
-  .hours-card__grid{grid-template-columns:1fr}
   .carta-header{flex-direction:column;text-align:center}
   .carta-header__img{order:-1;width:100%;aspect-ratio:auto;height:clamp(180px,42vw,240px)}
   .quick-filters{justify-content:flex-start}

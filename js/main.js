@@ -716,6 +716,13 @@
   function initCategoryNav() {
     var links = $$('.cat-link');
     var catNavWrap = $('#cat-nav-wrap');
+    var catNavScroller = $('#cat-nav');
+
+    function centerLinkHorizontally(link) {
+      if (!link || !catNavScroller) return;
+      var target = link.offsetLeft + link.offsetWidth / 2 - catNavScroller.clientWidth / 2;
+      catNavScroller.scrollTo({ left: target, behavior: 'smooth' });
+    }
 
     links.forEach(function (link) {
       link.addEventListener('click', function (e) {
@@ -733,8 +740,7 @@
         if (entry.isIntersecting) {
           var id = entry.target.id;
           links.forEach(function (l) { l.classList.toggle('active', l.dataset.cat === id); });
-          var activeLink = document.querySelector('.cat-link[data-cat="' + id + '"]');
-          if (activeLink) activeLink.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+          centerLinkHorizontally(document.querySelector('.cat-link[data-cat="' + id + '"]'));
         }
       });
     }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });

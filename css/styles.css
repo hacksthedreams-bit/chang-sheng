@@ -803,14 +803,25 @@ body.cursor-visible .cursor{opacity:1}
   content:'';position:absolute;inset:0;z-index:-2;pointer-events:none;
   background-image:url('../assets/decor/chapsui/pattern-tile.webp');
   background-size:240px;background-repeat:repeat;
-  opacity:.03;mix-blend-mode:screen;
+  opacity:.04;mix-blend-mode:screen;
 }
 .section--carta::after{
   content:'';position:absolute;bottom:-40px;right:clamp(-60px,-4vw,-20px);
   width:clamp(280px,34vw,460px);height:clamp(280px,34vw,460px);
   background-image:url('../assets/decor/antojos-v2/dragon-lineal.webp');
   background-size:contain;background-repeat:no-repeat;background-position:center;
-  opacity:.06;pointer-events:none;z-index:-1;
+  opacity:.13;pointer-events:none;z-index:-1;
+}
+.carta__clouds{
+  position:absolute;top:0;left:0;z-index:-1;
+  width:clamp(220px,26vw,360px);height:auto;
+  opacity:.1;pointer-events:none;
+  transform:scaleX(-1);
+}
+.carta__emblem{
+  position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(16px,3vw,32px);z-index:-1;
+  width:clamp(56px,6vw,88px);height:auto;
+  opacity:.4;pointer-events:none;
 }
 .carta-header{
   position:relative;isolation:isolate;overflow:hidden;

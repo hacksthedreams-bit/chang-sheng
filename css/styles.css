@@ -14,9 +14,9 @@
   --bg-section:#121010;
   --bg-elevated:#1E1A17;
   --cream:#F2EBDA;
-  --cream-soft:rgba(242,235,218,.75);
-  --cream-muted:rgba(242,235,218,.45);
-  --cream-desc:rgba(242,235,218,.62);
+  --cream-soft:rgba(242,235,218,.82);
+  --cream-muted:rgba(242,235,218,.6);
+  --cream-desc:rgba(242,235,218,.72);
   --accent:#C8102E;
   --accent-soft:rgba(200,16,46,.15);
   --gold:#D4A843;
@@ -36,8 +36,8 @@
   --shadow-md:0 8px 24px rgba(0,0,0,.4);
   --shadow-lg:0 16px 48px rgba(0,0,0,.5);
   --shadow-glow:0 0 40px rgba(212,168,67,.15);
-  --font-body:'Inter',system-ui,-apple-system,sans-serif;
-  --font-display:'Crimson Pro','Georgia',serif;
+  --font-body:'Work Sans',system-ui,-apple-system,sans-serif;
+  --font-display:'Fraunces','Georgia',serif;
   --shell:min(92vw,1280px);
   --safe-b:env(safe-area-inset-bottom,0px);
   --header-h:76px;
@@ -484,10 +484,10 @@ body.cursor-visible .cursor{opacity:1}
   background:linear-gradient(90deg,var(--bg-section) 0%,var(--bg-section) 40%,rgba(18,16,16,.6) 68%,rgba(18,16,16,.3) 100%);
 }
 .fusion__dragon{
-  position:absolute;right:clamp(-40px,-2vw,0px);top:50%;
+  position:absolute;right:clamp(24px,5vw,100px);top:50%;
   transform:translateY(-50%) scaleX(-1);
-  width:clamp(220px,26vw,420px);height:auto;
-  opacity:.9;z-index:-1;pointer-events:none;
+  width:clamp(260px,32vw,480px);height:auto;
+  opacity:.95;z-index:-1;pointer-events:none;
 }
 .fusion__clouds{
   position:absolute;left:0;top:0;
@@ -522,7 +522,7 @@ body.cursor-visible .cursor{opacity:1}
 .separator{
   display:flex;justify-content:center;
   padding:clamp(32px,5vw,56px) clamp(16px,4vw,32px);
-  background:var(--bg-section);
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg-section) 22%,var(--bg-section) 78%,var(--bg) 100%);
   position:relative;isolation:isolate;
 }
 .separator::before{

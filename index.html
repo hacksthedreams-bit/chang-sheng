@@ -65,7 +65,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20260937">
+<link rel="stylesheet" href="css/styles.css?v=20260938">
 </head>
 <body>
 
@@ -616,51 +616,111 @@
 
 <!-- ═══ 9. PREGUNTAS FRECUENTES ═══ -->
 <section class="section section--faq" id="faq">
+  <img class="faq__clouds" src="assets/decor/antojos-v2/nubes.webp" alt="" width="600" height="456" loading="lazy" aria-hidden="true">
   <div class="shell">
-    <span class="eyebrow reveal-up">Preguntas Frecuentes</span>
-    <h2 class="section-title reveal-up">¿Tienes dudas?</h2>
-    <div class="faq-list" id="faq-list">
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Hacen delivery?</summary>
-        <div class="faq-answer"><p>Sí, hacemos delivery a todo Batuco y alrededores. Puedes hacer tu pedido directamente por WhatsApp haciendo clic en el botón verde, o armando tu pedido desde nuestra carta digital.</p></div>
-      </details>
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Cuál es el pedido mínimo para delivery?</summary>
-        <div class="faq-answer"><p>No tenemos pedido mínimo. Puedes pedir desde un plato individual. El costo de delivery varía según la distancia.</p></div>
-      </details>
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Aceptan tarjetas de crédito y débito?</summary>
-        <div class="faq-answer"><p>Sí, aceptamos efectivo, tarjetas de débito, crédito y también transferencias bancarias.</p></div>
-      </details>
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Puedo reservar mesa para un grupo grande?</summary>
-        <div class="faq-answer"><p>¡Por supuesto! Puedes reservar directamente por WhatsApp o a través de nuestro formulario web. Para grupos de más de 10 personas, te recomendamos reservar con al menos 24 horas de anticipación.</p></div>
-      </details>
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Tienen opciones vegetarianas?</summary>
-        <div class="faq-answer"><p>Sí, tenemos una sección dedicada de platos vegetarianos que incluye chapsui de verduras, tofu mongoliano, arroz vegetariano y más. También podemos adaptar la mayoría de nuestros platos a preferencias vegetarianas.</p></div>
-      </details>
-      <details class="faq-item reveal-up">
-        <summary class="faq-question">¿Cuál es el horario de atención?</summary>
-        <div class="faq-answer"><p>Atendemos todos los días de la semana de 11:30 a 22:30 horas. Los feriados mantenemos el mismo horario.</p></div>
-      </details>
+    <div class="faq-layout">
+      <div class="faq-main">
+        <span class="eyebrow reveal-up">Preguntas Frecuentes</span>
+        <h2 class="section-title reveal-up">¿Tienes dudas?</h2>
+        <p class="section-subtitle reveal-up">Encuentra respuestas rápidas antes de realizar tu pedido.</p>
+        <div class="faq-list" id="faq-list">
+          <details class="faq-item reveal-up" open>
+            <summary class="faq-question">
+              <span>¿Hacen delivery?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>Sí, hacemos delivery a todo Batuco y alrededores. Puedes hacer tu pedido directamente por WhatsApp haciendo clic en el botón verde, o armando tu pedido desde nuestra carta digital.</p></div>
+          </details>
+          <details class="faq-item reveal-up">
+            <summary class="faq-question">
+              <span>¿Cuál es el pedido mínimo para delivery?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>No tenemos pedido mínimo. Puedes pedir desde un plato individual. El costo de delivery varía según la distancia.</p></div>
+          </details>
+          <details class="faq-item reveal-up">
+            <summary class="faq-question">
+              <span>¿Aceptan tarjetas de crédito y débito?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>Sí, aceptamos efectivo, tarjetas de débito, crédito y también transferencias bancarias.</p></div>
+          </details>
+          <details class="faq-item reveal-up">
+            <summary class="faq-question">
+              <span>¿Puedo reservar mesa para un grupo grande?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>¡Por supuesto! Puedes reservar directamente por WhatsApp o a través de nuestro formulario web. Para grupos de más de 10 personas, te recomendamos reservar con al menos 24 horas de anticipación.</p></div>
+          </details>
+          <details class="faq-item reveal-up">
+            <summary class="faq-question">
+              <span>¿Tienen opciones vegetarianas?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>Sí, tenemos una sección dedicada de platos vegetarianos que incluye chapsui de verduras, tofu mongoliano, arroz vegetariano y más. También podemos adaptar la mayoría de nuestros platos a preferencias vegetarianas.</p></div>
+          </details>
+          <details class="faq-item reveal-up">
+            <summary class="faq-question">
+              <span>¿Cuál es el horario de atención?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-answer"><p>Atendemos todos los días de la semana de 11:30 a 22:30 horas. Los feriados mantenemos el mismo horario.</p></div>
+          </details>
+        </div>
+      </div>
+      <aside class="faq-help reveal-up">
+        <span class="faq-help__icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </span>
+        <h3 class="faq-help__title">¿Necesitas ayuda?</h3>
+        <p class="faq-help__text">Escríbenos y te orientamos directamente.</p>
+        <a class="btn btn--whatsapp magnetic faq-help__btn" href="https://wa.me/56954663415?text=Hola%2C%20tengo%20una%20consulta" target="_blank" rel="noreferrer">
+          Hablar por WhatsApp
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="faq-help__features">
+          <div class="faq-help__feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <span>Respuesta rápida</span>
+          </div>
+          <div class="faq-help__feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>Atención personalizada</span>
+          </div>
+          <div class="faq-help__feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span>Te ayudamos en tu pedido</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <!-- ═══ 10. CTA FINAL ═══ -->
 <section class="section section--cta">
+  <img class="cta__clouds" src="assets/decor/antojos-v2/nubes.webp" alt="" width="600" height="456" loading="lazy" aria-hidden="true">
   <div class="shell">
     <div class="final-cta reveal-up">
-      <h2 class="section-title">¿Listo para disfrutar<br><span class="gold">auténtica cocina china?</span></h2>
-      <p>Arma tu pedido desde la carta o escríbenos directo por WhatsApp.</p>
-      <div class="final-cta__actions">
-        <a class="btn btn--primary btn--lg magnetic" href="#carta">Ver la carta</a>
-        <a class="btn btn--secondary btn--lg magnetic" href="#reservas">Reservar mesa</a>
-        <a class="btn btn--whatsapp btn--lg magnetic" href="https://wa.me/56954663415" target="_blank" rel="noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Pedir por WhatsApp
-        </a>
+      <div class="final-cta__text">
+        <span class="eyebrow">Sabores que nos unen</span>
+        <h2 class="section-title">¿Listo para disfrutar <span class="gold">auténtica cocina china?</span></h2>
+        <p>Arma tu pedido desde la carta o escríbenos directo por WhatsApp.</p>
+        <div class="final-cta__actions">
+          <a class="btn btn--primary btn--lg magnetic" href="#carta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            Ver la carta
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--whatsapp btn--lg magnetic" href="https://wa.me/56954663415" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Pedir por WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="final-cta__photo">
+        <img src="assets/img/especialidades/camaron-agridulce.webp" alt="Camarón agridulce preparado en Chang Sheng" width="640" height="480" loading="lazy">
+        <span class="final-cta__caption">Cocina cantonesa<br>para personas reales</span>
       </div>
     </div>
   </div>

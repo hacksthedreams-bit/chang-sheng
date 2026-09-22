@@ -1285,19 +1285,46 @@ body.cursor-visible .cursor{opacity:1}
   color:#fff;font-size:.85rem;font-weight:600;
 }
 
-/* ═══ TRUST STRIP ═══ */
-.trust-strip{
+/* ═══ PEDIDO EN TRES PASOS: BANDA COMPARTIDA ═══ */
+.steps-band{
   position:relative;isolation:isolate;overflow:hidden;
-  padding:clamp(36px,5.5vw,56px) 0;
   background:var(--bg-section);
   border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
 }
-.trust-strip::before{
-  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background-image:url('../assets/decor/nuevas-zonas/pattern.webp');
-  background-size:240px;background-repeat:repeat;
-  opacity:.03;mix-blend-mode:screen;
+.steps-band::before{
+  content:'';position:absolute;inset:0;z-index:-3;pointer-events:none;
+  background-image:url('../assets/img/pedido-ambiente-desktop.webp');
+  background-size:cover;background-position:center;
+}
+.steps-band::after{
+  content:'';position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background-image:url('../assets/decor/faq-cta/pattern-lattice.svg');
+  background-size:160px;background-repeat:repeat;
+}
+.steps-band__ornament{
+  position:absolute;top:0;z-index:-1;
+  width:clamp(180px,18vw,280px);height:auto;
+  pointer-events:none;
+}
+.steps-band__ornament--tl{left:0}
+.steps-band__ornament--tr{right:0;transform:scaleX(-1)}
+.steps-band__prop{
+  position:absolute;left:0;bottom:0;z-index:-1;
+  width:clamp(240px,26vw,460px);height:auto;
+  pointer-events:none;
+}
+@media (max-width:768px){
+  .steps-band::before{
+    background-image:url('../assets/img/pedido-ambiente-mobile.webp');
+    background-position:center top;
+  }
+  .steps-band__prop{display:none}
+}
+
+/* ═══ TRUST STRIP ═══ */
+.trust-strip{
+  padding:clamp(36px,5.5vw,56px) 0;
+  border-bottom:1px solid var(--border);
 }
 .trust-strip__inner{
   display:flex;
@@ -1341,14 +1368,7 @@ body.cursor-visible .cursor{opacity:1}
 
 /* ═══ STEPS ═══ */
 .section--steps{
-  position:relative;isolation:isolate;overflow:hidden;
-  background:var(--bg-section);
-}
-.section--steps::before{
-  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background-image:url('../assets/decor/chapsui/pattern-tile.webp');
-  background-size:240px;background-repeat:repeat;
-  opacity:.03;mix-blend-mode:screen;
+  position:relative;
 }
 .steps-panel{
   position:relative;
@@ -1501,15 +1521,40 @@ body.cursor-visible .cursor{opacity:1}
   background:var(--bg-section);
 }
 .section--hours::before{
-  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background-image:url('../assets/decor/nuevas-zonas/pattern.webp');
-  background-size:240px;background-repeat:repeat;
-  opacity:.03;mix-blend-mode:screen;
+  content:'';position:absolute;inset:0;z-index:-3;pointer-events:none;
+  background-image:url('../assets/img/horarios-ambiente-desktop.webp');
+  background-size:cover;background-position:center right;
 }
-.hours__clouds{
+.section--hours::after{
+  content:'';position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background-image:url('../assets/decor/faq-cta/pattern-lattice.svg');
+  background-size:160px;background-repeat:repeat;
+}
+.hours__ornament{
   position:absolute;top:0;left:0;z-index:-1;
   width:clamp(200px,22vw,320px);height:auto;
-  opacity:.07;pointer-events:none;
+  pointer-events:none;
+}
+.hours__prop{position:absolute;z-index:-1;pointer-events:none}
+.hours__prop--plate{
+  left:0;bottom:0;
+  width:clamp(280px,30vw,560px);height:auto;
+}
+.hours__prop--food{
+  right:0;top:0;bottom:0;margin:auto 0;
+  height:clamp(480px,72%,720px);width:auto;
+}
+@media (max-width:768px){
+  .section--hours::before{
+    background-image:url('../assets/img/horarios-ambiente-mobile.webp');
+    background-position:center top;
+  }
+  .hours__prop--plate{display:none}
+  .hours__prop--food{
+    top:auto;bottom:0;margin:0;
+    height:clamp(220px,42vw,320px);
+    opacity:.85;
+  }
 }
 .hours-layout{
   display:grid;
@@ -2109,6 +2154,10 @@ body.cursor-visible .cursor{opacity:1}
   .hours-intro{text-align:center}
   .hours-clock{justify-content:center}
   .hours-clock__body{align-items:flex-start}
+  .hours__prop--plate{width:clamp(200px,26vw,300px)}
+  .hours__prop--food{height:clamp(340px,55%,500px)}
+  .steps-band__ornament{width:clamp(140px,30vw,200px);opacity:.7}
+  .steps-band__prop{width:clamp(200px,30vw,280px)}
   .footer-grid{grid-template-columns:1fr 1fr}
   .carta-header{flex-direction:column;text-align:center}
   .carta-header__img{order:-1;width:100%;aspect-ratio:auto;height:clamp(180px,42vw,240px)}
@@ -2156,6 +2205,7 @@ body.cursor-visible .cursor{opacity:1}
   .trust-strip__divider{display:none}
   .steps-panel{grid-template-columns:1fr;gap:0}
   .steps-track{display:none}
+  .steps-band__prop{display:none}
   .step-col{padding-bottom:36px}
   .step-col:not(:last-child)::after{
     content:'';position:absolute;

@@ -897,7 +897,7 @@
 
     setTimeout(function () {
       reveals.forEach(function (el) { el.classList.add('visible'); });
-    }, 6000);
+    }, 20000);
   }
 
   /* ═══ ANIMATED COUNTERS ═══ */

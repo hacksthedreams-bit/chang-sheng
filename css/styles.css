@@ -1426,14 +1426,6 @@ body.cursor-visible .cursor{opacity:1}
   content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(10,8,6,.35),transparent 18%,transparent 82%,rgba(10,8,6,.45));
 }
-.chapter-divider{
-  display:flex;justify-content:center;
-  padding:clamp(20px,3vw,32px) 24px 0;
-}
-.chapter-divider--bottom{padding:0 24px clamp(20px,3vw,32px)}
-.chapter-divider img{
-  width:min(64%,620px);height:auto;
-}
 .batuco-header{margin-bottom:clamp(24px,3vw,32px)}
 .batuco-header .section-title{margin-bottom:14px}
 .batuco-header__gold{color:var(--gold)}
@@ -2225,7 +2217,6 @@ body.cursor-visible .cursor{opacity:1}
 }
 @media (max-width:768px){
   .batuco-grid{grid-template-columns:1fr;gap:32px}
-  .chapter-divider img{width:min(78%,420px)}
   .batuco-plate{width:clamp(48px,13vw,64px)}
   .batuco-tiles-row{gap:14px}
 }

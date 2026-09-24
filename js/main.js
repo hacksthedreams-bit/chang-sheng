@@ -931,6 +931,19 @@
     counters.forEach(function (el) { observer.observe(el); });
   }
 
+  /* ═══ PEDIDO EN TRES PASOS: secuencia única de sellos al entrar en pantalla ═══ */
+  function initPedidoPasos() {
+    var section = $('#pedido-tres-pasos');
+    if (!section || !('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries.some(function (entry) { return entry.isIntersecting; })) {
+        section.classList.add('is-visible');
+        observer.disconnect();
+      }
+    }, { threshold: .22 });
+    observer.observe(section);
+  }
+
   /* ═══ FOOTER YEAR ═══ */
   function initFooterYear() {
     var el = $('#footer-year');
@@ -1001,6 +1014,7 @@
     safe(initFooterYear);
     safe(initReveal);
     safe(initCounters);
+    safe(initPedidoPasos);
     safe(initOpenStatus);
     safe(initReservations);
 

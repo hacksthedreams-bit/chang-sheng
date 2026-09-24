@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 94 94" aria-hidden="true">
+<defs><radialGradient id="center"><stop stop-color="#FFE4A4"/><stop offset=".74" stop-color="#E8B85B"/><stop offset="1" stop-color="#BD8137"/></radialGradient><filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<circle cx="47" cy="47" r="44" fill="#C28032" opacity=".5" filter="url(#glow)"/>
+<circle cx="47" cy="47" r="44" fill="#3B210E" stroke="#F8CB77" stroke-width="2"/>
+<circle cx="47" cy="47" r="37" fill="url(#center)" stroke="#FFF0BD" stroke-width="1.5"/>
+</svg>

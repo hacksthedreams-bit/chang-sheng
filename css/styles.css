@@ -1426,11 +1426,12 @@ body.cursor-visible .cursor{opacity:1}
   content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(10,8,6,.35),transparent 18%,transparent 82%,rgba(10,8,6,.45));
 }
-.batuco-divider{
+.chapter-divider{
   display:flex;justify-content:center;
   padding:clamp(20px,3vw,32px) 24px 0;
 }
-.batuco-divider img{
+.chapter-divider--bottom{padding:0 24px clamp(20px,3vw,32px)}
+.chapter-divider img{
   width:min(64%,620px);height:auto;
 }
 .batuco-header{margin-bottom:clamp(24px,3vw,32px)}
@@ -1539,43 +1540,12 @@ body.cursor-visible .cursor{opacity:1}
 /* ═══ HOURS ═══ */
 .section--hours{
   position:relative;isolation:isolate;overflow:hidden;
-  background:var(--bg-section);
+  background:#12100e;
 }
 .section--hours::before{
-  content:'';position:absolute;inset:0;z-index:-3;pointer-events:none;
-  background-image:url('../assets/img/horarios-ambiente-desktop.webp');
-  background-size:cover;background-position:center right;
-}
-.section--hours::after{
-  content:'';position:absolute;inset:0;z-index:-2;pointer-events:none;
-  background-image:url('../assets/decor/faq-cta/pattern-lattice.svg');
-  background-size:160px;background-repeat:repeat;
-}
-.hours__ornament{
-  position:absolute;top:0;left:0;z-index:-1;
-  width:clamp(200px,22vw,320px);height:auto;
-  pointer-events:none;
-}
-.hours__prop{position:absolute;z-index:-1;pointer-events:none}
-.hours__prop--plate{
-  left:0;bottom:0;
-  width:clamp(280px,30vw,560px);height:auto;
-}
-.hours__prop--food{
-  right:0;top:0;bottom:0;margin:auto 0;
-  height:clamp(480px,72%,720px);width:auto;
-}
-@media (max-width:768px){
-  .section--hours::before{
-    background-image:url('../assets/img/horarios-ambiente-mobile.webp');
-    background-position:center top;
-  }
-  .hours__prop--plate{display:none}
-  .hours__prop--food{
-    top:auto;bottom:0;margin:0;
-    height:clamp(220px,42vw,320px);
-    opacity:.85;
-  }
+  content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:url('../assets/horarios/bg-horarios.webp');
+  background-size:cover;background-position:center;
 }
 .hours-layout{
   display:grid;
@@ -1583,7 +1553,9 @@ body.cursor-visible .cursor{opacity:1}
   gap:clamp(28px,4vw,56px);
   align-items:center;
 }
-.hours-intro .section-title{margin-bottom:22px}
+.hours-title-row{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.hours-title-row .section-title{margin-bottom:0}
+.hours-title__cloud{width:clamp(64px,7vw,96px);height:auto;flex-shrink:0}
 .hours-clock{
   display:flex;align-items:center;gap:14px;
   margin-bottom:18px;
@@ -1608,11 +1580,16 @@ body.cursor-visible .cursor{opacity:1}
   letter-spacing:.03em;
   font-variant-numeric:tabular-nums;
 }
+.hours-media{display:flex;align-items:stretch;gap:clamp(10px,1.6vw,18px)}
 .hours-panel{
-  padding:clamp(24px,3.5vw,32px);
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
+  flex:1;min-width:0;
+  padding:clamp(30px,4vw,42px) clamp(26px,3.5vw,36px);
+  background:url('../assets/horarios/panel-horarios.webp') center/100% 100% no-repeat;
+}
+.hours-plate{
+  flex:none;align-self:stretch;
+  width:clamp(56px,7.5vw,90px);height:auto;
+  object-fit:contain;object-position:top;
 }
 .hours-row{
   display:flex;align-items:center;gap:16px;
@@ -1646,13 +1623,14 @@ body.cursor-visible .cursor{opacity:1}
 .hours-cta{width:100%;justify-content:center;margin-top:18px}
 .hours-card__status{
   margin-top:24px;
-  padding:12px 24px;
+  padding:12px 26px;
   border-radius:100px;
-  font-size:.82rem;font-weight:600;
-  display:inline-flex;align-items:center;gap:8px;
+  font-size:.85rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid transparent;
 }
-.hours-card__status.open{background:rgba(52,211,153,.12);color:#34D399}
-.hours-card__status.closed{background:var(--accent-soft);color:#F87171}
+.hours-card__status.open{background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.3);color:#34D399}
+.hours-card__status.closed{background:rgba(200,16,46,.22);border-color:rgba(248,113,113,.35);color:#FCA5A5}
 .hours-card__status::before{
   content:'';width:8px;height:8px;
   border-radius:50%;
@@ -2191,8 +2169,7 @@ body.cursor-visible .cursor{opacity:1}
   .hours-intro{text-align:center}
   .hours-clock{justify-content:center}
   .hours-clock__body{align-items:flex-start}
-  .hours__prop--plate{width:clamp(200px,26vw,300px)}
-  .hours__prop--food{height:clamp(340px,55%,500px)}
+  .hours-plate{width:clamp(44px,9vw,64px)}
   .footer-grid{grid-template-columns:1fr 1fr}
   .carta-header{flex-direction:column;text-align:center}
   .carta-header__img{order:-1;width:100%;aspect-ratio:auto;height:clamp(180px,42vw,240px)}
@@ -2248,7 +2225,7 @@ body.cursor-visible .cursor{opacity:1}
 }
 @media (max-width:768px){
   .batuco-grid{grid-template-columns:1fr;gap:32px}
-  .batuco-divider img{width:min(78%,420px)}
+  .chapter-divider img{width:min(78%,420px)}
   .batuco-plate{width:clamp(48px,13vw,64px)}
   .batuco-tiles-row{gap:14px}
 }

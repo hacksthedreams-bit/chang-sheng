@@ -981,6 +981,20 @@
     setInterval(updateHoursStatus, 1000);
   }
 
+  /* ═══ FAQ ACCORDION: al abrir uno se cierran los demás ═══ */
+  function initFaqAccordion() {
+    var items = $$('#faq-list .faq-item');
+    if (!items.length) return;
+    items.forEach(function (item) {
+      item.addEventListener('toggle', function () {
+        if (!item.open) return;
+        items.forEach(function (other) {
+          if (other !== item) other.open = false;
+        });
+      });
+    });
+  }
+
   /* ═══ GSAP ANIMATIONS ═══ */
   function initGSAP() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
@@ -1017,6 +1031,7 @@
     safe(initPedidoPasos);
     safe(initOpenStatus);
     safe(initReservations);
+    safe(initFaqAccordion);
 
     safe(function () {
       var fabCart = $('#fab-cart');

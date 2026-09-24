@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none">
-  <g stroke="#B98545" stroke-width="1" opacity="0.10">
-    <path d="M0 40H40V0M120 0V40H160M0 120H40V160M120 160V120H160"/>
-    <path d="M40 40H120V120H40Z"/>
-    <path d="M40 40L80 0L120 40L160 80L120 120L80 160L40 120L0 80Z"/>
-    <circle cx="80" cy="80" r="24"/>
-    <path d="M56 80H104M80 56V104"/>
-  </g>
-</svg>

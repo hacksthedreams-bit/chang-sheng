@@ -183,11 +183,10 @@
     {id:"bebidas",name:"Para Beber",eyebrow:"Solo para llevar",desc:"Elige el formato y el sabor para acompañar tu pedido para llevar."}
   ];
 
-  /* ── Miniaturas de categoría (compartidas con el nav de "Explora nuestros sabores") ──
-     Solo se listan categorías con fotografía real; combos/sushi/gyoza usan un ícono
-     de respaldo en el nav (ver .cat-link__thumb--mark) hasta contar con fotos propias. */
+  /* ── Miniaturas de categoría (compartidas con el nav de "Explora nuestros sabores") ── */
   var CATEGORY_THUMBS = {
     colaciones: 'assets/img/categorias/colaciones.webp',
+    combos: 'assets/img/categorias/combos.webp',
     aperitivos: 'assets/img/categorias/aperitivos.webp',
     sopas: 'assets/img/categorias/sopas.webp',
     arroz: 'assets/img/categorias/arroz.webp',
@@ -198,14 +197,23 @@
     mariscos: 'assets/img/categorias/mariscos.webp',
     carne: 'assets/img/categorias/carne.webp',
     chaumin: 'assets/img/categorias/chaumin.webp',
+    sushi: 'assets/img/categorias/sushi.webp',
+    gyoza: 'assets/img/categorias/gyoza.webp',
     bebidas: 'assets/img/categorias/bebidas.webp'
   };
+
+  /* ── Zonas de delivery y mesas disponibles ── */
+  var DELIVERY_ZONES = ['Villahermosa', 'Casa Chubi', 'Camino de Lampa', 'Avenida España', 'Sol y Luna', 'Santa Sara', 'Santa Carolina'];
+  var TABLE_COUNT = 20;
 
   /* ── State ── */
   var cart = [];
   var orderId = '';
   var cartNotes = '';
   var lastFocusedElement = null;
+  var fulfillmentMethod = '';
+  var fulfillmentData = { zone: '', address: '', table: '' };
+  var pendingFormat = null;
 
   /* ── DOM Helpers ── */
   var $ = function (s) { return document.querySelector(s); };
@@ -296,25 +304,17 @@
 
       if (isBebidas) {
         prods.forEach(function (f) {
-          var selectId = 'flavor-' + f.id;
           html += '<article class="product-card product-card--format">';
           html += '<div class="product-card__body">';
           html += '<div class="product-card__top">';
           html += '<h4>' + escHtml(f.name) + '</h4>';
           html += '<span class="product-card__price">' + fmtPrice(f.price) + '</span>';
           html += '</div>';
-          html += '<div class="format-flavor">';
-          html += '<label for="' + selectId + '" class="format-flavor__label">Sabor</label>';
-          html += '<select id="' + selectId + '" class="format-flavor__select">';
-          f.flavors.forEach(function (flavor) {
-            html += '<option value="' + escHtml(flavor) + '">' + escHtml(flavor) + '</option>';
-          });
-          html += '</select>';
-          html += '</div>';
+          html += '<p class="product-card__desc">Elige tu sabor favorito al agregar.</p>';
           html += '<div class="product-card__foot"><div class="product-card__badges"></div>';
-          html += '<button class="add-btn" type="button" data-add-format data-format-select="' + selectId + '" data-format-label="' + escHtml(f.name) + '" data-format-price="' + f.price + '" aria-label="Agregar bebida ' + escHtml(f.name) + '">';
-          html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-          html += '<span class="add-btn__label">Agregar</span>';
+          html += '<button class="add-btn" type="button" data-choose-format="' + escHtml(f.id) + '" aria-label="Elegir sabor de ' + escHtml(f.name) + '">';
+          html += '<span class="add-btn__label">Elegir sabor</span>';
+          html += '<svg class="add-btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
           html += '</button>';
           html += '</div></div></article>';
         });
@@ -349,22 +349,10 @@
     container.innerHTML = html;
 
     container.addEventListener('click', function (e) {
-      var formatBtn = e.target.closest('[data-add-format]');
-      if (formatBtn) {
-        var select = document.getElementById(formatBtn.dataset.formatSelect);
-        var flavor = select ? select.value : '';
-        var label = formatBtn.dataset.formatLabel;
-        var price = parseInt(formatBtn.dataset.formatPrice);
-        var id = 'bev-' + formatBtn.dataset.formatSelect + '-' + flavor;
-        var name = flavor + ' — ' + label;
-        addToCart(id, name, price);
-        var btnLabel = formatBtn.querySelector('.add-btn__label');
-        formatBtn.classList.add('added');
-        if (btnLabel) btnLabel.textContent = 'Agregado';
-        setTimeout(function () {
-          formatBtn.classList.remove('added');
-          if (btnLabel) btnLabel.textContent = 'Agregar';
-        }, 1200);
+      var chooseBtn = e.target.closest('[data-choose-format]');
+      if (chooseBtn) {
+        var format = BEBIDA_FORMATS.find(function (f) { return f.id === chooseBtn.dataset.chooseFormat; });
+        if (format) openVariantSheet(format);
         return;
       }
 
@@ -418,8 +406,6 @@
     mariscos: 'Mariscos',
     bebidas: 'Bebidas'
   };
-  var CAT_NAV_MARKS = { combos: '🍽️', sushi: '🍣', gyoza: '🥟' };
-
   function renderCatNav() {
     var nav = $('#cat-nav');
     if (!nav) return;
@@ -434,11 +420,7 @@
       var thumb = CATEGORY_THUMBS[cat.id];
 
       html += '<a href="#' + cat.id + '" class="cat-link" data-cat="' + cat.id + '">';
-      if (thumb) {
-        html += '<span class="cat-link__thumb"><img src="' + thumb + '" alt="" loading="lazy" width="52" height="52"></span>';
-      } else {
-        html += '<span class="cat-link__thumb cat-link__thumb--mark" aria-hidden="true">' + (CAT_NAV_MARKS[cat.id] || '🥢') + '</span>';
-      }
+      html += '<span class="cat-link__thumb"><img src="' + thumb + '" alt="" loading="lazy" width="52" height="52"></span>';
       html += '<span class="cat-link__body">';
       html += '<span class="cat-link__name">' + escHtml(label) + '</span>';
       html += '<span class="cat-link__count">' + count + (count === 1 ? ' plato' : ' platos') + '</span>';
@@ -519,6 +501,8 @@
 
     if (cart.length === 0) {
       orderId = '';
+      fulfillmentMethod = '';
+      fulfillmentData = { zone: '', address: '', table: '' };
       cartBody.innerHTML = '<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg><p>Tu pedido está vacío</p><p style="font-size:.85rem;margin-top:.5rem;color:var(--cream-muted)">Agrega platos desde nuestra carta</p></div>';
       if (cartFooter) cartFooter.classList.add('is-hidden');
       return;
@@ -540,6 +524,36 @@
       html += '</div></li>';
     });
     html += '</ul>';
+
+    // Fulfillment (cómo quieres recibirlo)
+    html += '<div class="fulfillment">';
+    html += '<h3>¿Cómo quieres recibirlo?</h3>';
+    html += '<div class="segmented" role="group" aria-label="Modalidad de entrega">';
+    html += '<button type="button" class="seg-btn' + (fulfillmentMethod === 'retiro' ? ' active' : '') + '" data-method="retiro">Retiro</button>';
+    html += '<button type="button" class="seg-btn' + (fulfillmentMethod === 'delivery' ? ' active' : '') + '" data-method="delivery">Delivery</button>';
+    html += '<button type="button" class="seg-btn' + (fulfillmentMethod === 'mesa' ? ' active' : '') + '" data-method="mesa">Mesa</button>';
+    html += '</div>';
+    html += '<div class="fulfillment-detail' + (fulfillmentMethod === 'delivery' ? ' show' : '') + '" data-detail="delivery">';
+    html += '<label for="delivery-zone">Zona de delivery</label>';
+    html += '<select id="delivery-zone"><option value="">Selecciona tu zona</option>';
+    DELIVERY_ZONES.forEach(function (zone) {
+      html += '<option' + (fulfillmentData.zone === zone ? ' selected' : '') + '>' + zone + '</option>';
+    });
+    html += '</select>';
+    html += '<label for="delivery-address">Dirección exacta</label>';
+    html += '<input type="text" id="delivery-address" placeholder="Calle, número y referencia" maxlength="140" value="' + escHtml(fulfillmentData.address) + '">';
+    html += '</div>';
+    html += '<div class="fulfillment-detail' + (fulfillmentMethod === 'mesa' ? ' show' : '') + '" data-detail="mesa">';
+    html += '<label for="table-select">Selecciona tu mesa</label>';
+    html += '<select id="table-select"><option value="">Selecciona tu mesa</option>';
+    for (var t = 1; t <= TABLE_COUNT; t++) {
+      var tableName = 'Mesa ' + t;
+      html += '<option' + (fulfillmentData.table === tableName ? ' selected' : '') + '>' + tableName + '</option>';
+    }
+    html += '</select>';
+    html += '</div>';
+    html += '<p class="fulfillment-error" id="fulfillment-error"></p>';
+    html += '</div>';
 
     // Notes
     html += '<div class="notes-field"><label for="cart-notes">Observaciones opcionales</label>';
@@ -568,7 +582,54 @@
     var notes = $('#cart-notes');
     if (notes) notes.addEventListener('input', function () { cartNotes = notes.value; updateWaLink(); });
 
+    // Wire fulfillment controls
+    var segButtons = cartBody.querySelectorAll('.seg-btn');
+    var fulfillmentError = $('#fulfillment-error');
+    segButtons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        fulfillmentMethod = btn.dataset.method;
+        segButtons.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        cartBody.querySelectorAll('.fulfillment-detail').forEach(function (d) {
+          d.classList.toggle('show', d.dataset.detail === fulfillmentMethod);
+        });
+        if (fulfillmentError) fulfillmentError.textContent = '';
+        updateWaLink();
+      });
+    });
+    var zoneSelect = $('#delivery-zone');
+    if (zoneSelect) zoneSelect.addEventListener('change', function () { fulfillmentData.zone = zoneSelect.value; updateWaLink(); });
+    var addressInput = $('#delivery-address');
+    if (addressInput) addressInput.addEventListener('input', function () { fulfillmentData.address = addressInput.value; updateWaLink(); });
+    var tableSelect = $('#table-select');
+    if (tableSelect) tableSelect.addEventListener('change', function () { fulfillmentData.table = tableSelect.value; updateWaLink(); });
+
     updateWaLink();
+  }
+
+  function validateFulfillment() {
+    if (!fulfillmentMethod) return 'Selecciona cómo quieres recibir tu pedido.';
+    if (fulfillmentMethod === 'delivery') {
+      if (!fulfillmentData.zone) return 'Selecciona tu zona de delivery.';
+      if (!fulfillmentData.address.trim()) return 'Ingresa la dirección exacta para el delivery.';
+    }
+    if (fulfillmentMethod === 'mesa' && !fulfillmentData.table) return 'Selecciona el número de mesa.';
+    return '';
+  }
+
+  function fulfillmentLines() {
+    if (fulfillmentMethod === 'retiro') return ['Modalidad: Retiro en el local'];
+    if (fulfillmentMethod === 'delivery') {
+      var lines = ['Modalidad: Delivery'];
+      if (fulfillmentData.zone) lines.push('Zona: ' + fulfillmentData.zone);
+      if (fulfillmentData.address.trim()) lines.push('Dirección: ' + fulfillmentData.address.trim());
+      return lines;
+    }
+    if (fulfillmentMethod === 'mesa') {
+      var mesaLines = ['Modalidad: Mesa'];
+      if (fulfillmentData.table) mesaLines.push('N° de mesa: ' + fulfillmentData.table.replace('Mesa ', ''));
+      return mesaLines;
+    }
+    return [];
   }
 
   function updateWaLink() {
@@ -587,6 +648,12 @@
     var total = cartTotal();
     lines.push('');
     lines.push('*Total estimado: ' + fmtPrice(total) + '*');
+    var fLines = fulfillmentLines();
+    if (fLines.length) {
+      lines.push('');
+      lines.push('*Entrega*');
+      fLines.forEach(function (l) { lines.push(l); });
+    }
     if (cartNotes.trim()) {
       lines.push('');
       lines.push('*Observaciones:* ' + cartNotes.trim());
@@ -705,6 +772,35 @@
       }
       lastFocusedElement = null;
     }
+  }
+
+  /* ═══ VARIANT SHEET (elegir sabor de bebida) ═══ */
+  function openVariantSheet(format) {
+    pendingFormat = format;
+    var subtitle = $('#variant-subtitle');
+    if (subtitle) subtitle.textContent = format.name + ' — ' + fmtPrice(format.price);
+    var list = $('#variant-options-list');
+    if (list) {
+      var html = '';
+      format.flavors.forEach(function (flavor) {
+        html += '<button type="button" class="variant-opt" data-flavor="' + escHtml(flavor) + '">'
+          + '<span class="variant-opt__label">' + escHtml(flavor) + '</span>'
+          + '<svg class="variant-opt__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+          + '</button>';
+      });
+      list.innerHTML = html;
+      list.querySelectorAll('.variant-opt').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!pendingFormat) return;
+          var flavor = btn.dataset.flavor;
+          var id = 'bev-' + pendingFormat.id + '-' + flavor;
+          var name = flavor + ' — ' + pendingFormat.name;
+          addToCart(id, name, pendingFormat.price);
+          closeSheet($('#variant-sheet'));
+        });
+      });
+    }
+    openSheet($('#variant-sheet'));
   }
 
   /* ═══ SEARCH ═══ */
@@ -1033,8 +1129,24 @@
       if (headerCartBtn) headerCartBtn.addEventListener('click', function () { renderCart(); openSheet($('#cart-sheet')); });
       var cartClose = $('#cart-close');
       if (cartClose) cartClose.addEventListener('click', function () { closeSheet($('#cart-sheet')); });
+      var variantClose = $('#variant-close');
+      if (variantClose) variantClose.addEventListener('click', function () { closeSheet($('#variant-sheet')); });
       var overlay = $('#overlay');
-      if (overlay) overlay.addEventListener('click', function () { closeSheet($('#cart-sheet')); });
+      if (overlay) overlay.addEventListener('click', function () {
+        var activeSheet = document.querySelector('.bottom-sheet.open');
+        if (activeSheet) closeSheet(activeSheet);
+      });
+      var cartWaBtn = $('#cart-wa-btn');
+      if (cartWaBtn) cartWaBtn.addEventListener('click', function (event) {
+        var error = validateFulfillment();
+        if (error) {
+          event.preventDefault();
+          var fulfillmentError = $('#fulfillment-error');
+          if (fulfillmentError) fulfillmentError.textContent = error;
+          var fulfillmentEl = document.querySelector('.fulfillment');
+          if (fulfillmentEl) fulfillmentEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
       document.addEventListener('keydown', function (event) {
         var activeSheet = document.querySelector('.bottom-sheet.open');
         if (activeSheet && event.key === 'Tab') {
@@ -1052,7 +1164,7 @@
           }
         }
         if (event.key === 'Escape') {
-          closeSheet($('#cart-sheet'));
+          if (activeSheet) closeSheet(activeSheet);
           var hamburger = $('#hamburger');
           if (hamburger && hamburger.classList.contains('open')) hamburger.click();
         }

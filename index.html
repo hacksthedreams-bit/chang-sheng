@@ -70,7 +70,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20260963">
+<link rel="stylesheet" href="css/styles.css?v=20260965">
 </head>
 <body>
 
@@ -904,12 +904,25 @@
   </div>
 </div>
 
+<!-- ═══ VARIANT (SABOR) BOTTOM SHEET ═══ -->
+<div class="bottom-sheet" id="variant-sheet" role="dialog" aria-labelledby="variant-title" aria-modal="true" aria-hidden="true" inert>
+  <div class="bs-handle"></div>
+  <div class="bs-header">
+    <h2 id="variant-title">Elige el sabor</h2>
+    <button class="bs-close" id="variant-close" type="button" aria-label="Cerrar">&times;</button>
+  </div>
+  <div class="bs-body">
+    <p class="variant-title" id="variant-subtitle"></p>
+    <div class="variant-options" id="variant-options-list"></div>
+  </div>
+</div>
+
 <!-- ═══ TOAST ═══ -->
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <!-- ═══ SCRIPTS ═══ -->
 <script defer src="lib/gsap.min.js?v=20260916"></script>
 <script defer src="lib/ScrollTrigger.min.js?v=20260916"></script>
-<script defer src="js/main.js?v=20260934"></script>
+<script defer src="js/main.js?v=20260935"></script>
 </body>
 </html>

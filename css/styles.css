@@ -1302,16 +1302,21 @@ body.cursor-visible .cursor{opacity:1}
 .cs-pedido__ambient{position:relative;isolation:isolate;padding:56px 24px 46px;background:#170e09 url('../assets/img/pedido-ambiente-desktop.webp') center/cover no-repeat}
 .cs-pedido__ambient::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 51% 46% at 49% 44%,rgba(166,79,26,.46),transparent 100%),linear-gradient(100deg,rgba(23,9,5,.21),rgba(70,22,24,.14) 85%)}
 .cs-pedido__cloud,.cs-pedido__plate{position:absolute;pointer-events:none;user-select:none;z-index:-1}
+.cs-pedido__cloud{mix-blend-mode:screen}
 .cs-pedido__cloud--left{left:0;top:0;width:172px;opacity:.9}
 .cs-pedido__cloud--right{right:0;top:0;width:292px;opacity:.85}
-.cs-pedido__plate{left:-65px;bottom:-16px;width:395px;max-width:none}
+.cs-pedido__plate{
+  left:-65px;bottom:-16px;width:395px;max-width:none;
+  -webkit-mask-image:linear-gradient(55deg,#000 58%,transparent 90%);
+  mask-image:linear-gradient(55deg,#000 58%,transparent 90%);
+}
 .cs-pedido__inner{position:relative;max-width:1158px;margin:auto}
 .cs-pedido__stats{display:grid;grid-template-columns:repeat(4,1fr);height:171px;align-items:center;background:rgba(24,17,13,.94);border:1.5px solid #b77a32;border-radius:19px;box-shadow:0 18px 32px rgba(0,0,0,.22),0 -2px 0 rgba(251,195,99,.36);text-align:center}
 .cs-pedido__stat{display:flex;flex-direction:column;justify-content:center;align-items:center;height:108px;line-height:1.12;gap:5px}
 .cs-pedido__stat+.cs-pedido__stat{border-left:1px solid rgba(209,157,89,.65)}
 .cs-pedido__stat img{width:40px;height:40px;object-fit:contain}
 .cs-pedido__statnum{font:700 clamp(38px,4vw,57px)/1 var(--font-display);color:#f2c674}
-.cs-pedido__stat span{font-size:15px;letter-spacing:.012em;font-weight:500}
+.cs-pedido__statlabel{font-size:15px;letter-spacing:.012em;font-weight:500}
 .cs-pedido__heading{margin:36px 24px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;min-height:91px}
 .cs-pedido__eyebrow{color:#f2c674;font-size:13px;font-weight:700;line-height:1.1}
 .cs-pedido__heading h2{margin:10px 0 0;color:#fff1dd;font:700 clamp(38px,4vw,54px)/1.1 var(--font-display);letter-spacing:-.018em}
@@ -1319,15 +1324,29 @@ body.cursor-visible .cursor{opacity:1}
 .cs-pedido__steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0 0;padding:0}
 .cs-pedido__card{position:relative;min-height:272px;padding:113px 18px 47px;display:flex;flex-direction:column;align-items:center;text-align:center;border-radius:21px;background:radial-gradient(circle at 50% 84%,rgba(68,31,17,.66),transparent 51%),linear-gradient(160deg,#22140e,#180f0b 65%,#29150d);box-shadow:0 22px 29px rgba(0,0,0,.23)}
 .cs-pedido__card::before{content:'';position:absolute;inset:0;pointer-events:none;background:url('../assets/pedido-premium/marco-tarjeta-filigree.webp') center/100% 100% no-repeat}
-.cs-pedido__seal{position:absolute;top:4px;left:50%;z-index:1;transform:translateX(-50%);width:94px;height:94px;display:grid;place-items:center;background:url('../assets/pedido-premium/sello-numero.svg') center/contain no-repeat}
-.cs-pedido__seal span{color:#261305;font:700 39px/1 var(--font-display);padding-bottom:3px}
+.cs-pedido__seal{position:absolute;top:4px;left:50%;z-index:1;transform:translateX(-50%);width:94px;height:94px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:url('../assets/pedido-premium/sello-numero.svg') center/contain no-repeat}
+.cs-pedido__seal span{position:relative;z-index:1;color:#261305;font:700 39px/1 var(--font-display);padding-bottom:3px}
+.cs-pedido__seal::after{
+  content:'';position:absolute;inset:-25%;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,244,214,.8) 50%,transparent 58%);
+  transform:translateX(-140%);
+  pointer-events:none;
+}
 .cs-pedido__card h3{position:relative;z-index:1;margin:0 0 13px;color:#fff4e6;font:700 clamp(19px,1.65vw,22px)/1.16 var(--font-display);white-space:nowrap}
 .cs-pedido__card p{position:relative;z-index:1;color:#ede4d5;font-size:15px;line-height:1.48;margin:0}
 .cs-pedido__chips{z-index:1;display:flex;justify-content:center;gap:9px;margin:2px 0 13px;width:100%}
 .cs-pedido__chips span{border:1px solid #de9e4f;background:#43291d;border-radius:20px;padding:6px 12px;color:#f9dbab;font-size:10px;font-weight:700;white-space:nowrap}
 .cs-pedido__footer{display:flex;flex-direction:column;align-items:center;margin-top:25px}
 .cs-pedido__footer p{margin:0 0 18px;color:#f1c988;font-size:12px;font-weight:700;letter-spacing:.035em;text-shadow:0 1px 3px rgba(0,0,0,.4)}
-.cs-pedido__cta{position:relative;display:inline-flex;justify-content:center;align-items:center;gap:13px;min-width:290px;min-height:58px;border:2px solid #f3c16e;border-radius:34px;color:#fff6ea;font-size:17px;font-weight:700;background:linear-gradient(135deg,#680b0a,#9b171c 50%,#710c0b);box-shadow:inset 0 0 0 3px #57100a,0 7px 18px rgba(0,0,0,.4),0 0 0 1px rgba(255,192,111,.2);text-decoration:none;animation:cs-cta-breathe 3.4s ease-in-out infinite}
+.cs-pedido__cta{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;justify-content:center;align-items:center;gap:13px;min-width:290px;min-height:58px;border:2px solid #f3c16e;border-radius:34px;color:#fff6ea;font-size:17px;font-weight:700;background:linear-gradient(135deg,#680b0a,#9b171c 50%,#710c0b);box-shadow:inset 0 0 0 3px #57100a,0 7px 18px rgba(0,0,0,.4),0 0 0 1px rgba(255,192,111,.2);text-decoration:none;animation:cs-cta-breathe 3.4s ease-in-out infinite}
+.cs-pedido__cta::before{
+  content:'';position:absolute;inset:-60% -10%;z-index:0;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,235,190,.55) 50%,transparent 58%);
+  transform:translateX(-150%);
+  animation:cs-cta-sheen 4.2s ease-in-out 1s infinite;
+  pointer-events:none;
+}
+.cs-pedido__cta span,.cs-pedido__cta img{position:relative;z-index:1}
 .cs-pedido__cta img{width:17px;height:17px;filter:brightness(0) invert(1);transition:transform .2s}
 .cs-pedido__cta:hover img{transform:translateX(4px)}
 .cs-pedido__cta:hover{background:linear-gradient(135deg,#80100e,#ab1c24 50%,#881111)}
@@ -1337,10 +1356,15 @@ body.cursor-visible .cursor{opacity:1}
 .cs-pedido__next strong{font:700 24px/1.15 var(--font-display)}
 .cs-pedido__next b{color:#e7bc76;font-size:12px;white-space:nowrap}
 @keyframes cs-cta-breathe{50%{box-shadow:inset 0 0 0 3px #57100a,0 7px 18px rgba(0,0,0,.4),0 0 18px 2px rgba(244,154,84,.44)}}
+@keyframes cs-cta-sheen{0%{transform:translateX(-150%)}22%{transform:translateX(150%)}100%{transform:translateX(150%)}}
 @keyframes cs-seal-pulse{0%,100%{filter:drop-shadow(0 0 0 transparent)}55%{filter:drop-shadow(0 0 10px rgba(247,193,100,.85))}}
+@keyframes cs-seal-sheen{0%{transform:translateX(-140%)}20%{transform:translateX(140%)}100%{transform:translateX(140%)}}
 .cs-pedido.is-visible .cs-pedido__card:nth-child(1) .cs-pedido__seal{animation:cs-seal-pulse .8s .25s both}
 .cs-pedido.is-visible .cs-pedido__card:nth-child(2) .cs-pedido__seal{animation:cs-seal-pulse .8s .95s both}
 .cs-pedido.is-visible .cs-pedido__card:nth-child(3) .cs-pedido__seal{animation:cs-seal-pulse .8s 1.65s both}
+.cs-pedido.is-visible .cs-pedido__card:nth-child(1) .cs-pedido__seal::after{animation:cs-seal-sheen 4s ease-in-out 1.1s infinite}
+.cs-pedido.is-visible .cs-pedido__card:nth-child(2) .cs-pedido__seal::after{animation:cs-seal-sheen 4s ease-in-out 1.8s infinite}
+.cs-pedido.is-visible .cs-pedido__card:nth-child(3) .cs-pedido__seal::after{animation:cs-seal-sheen 4s ease-in-out 2.5s infinite}
 @media (max-width:900px){
   .cs-pedido__heading{margin-left:0;margin-right:0}
   .cs-pedido__card h3{white-space:normal}
@@ -1365,7 +1389,7 @@ body.cursor-visible .cursor{opacity:1}
   .cs-pedido__stat:nth-child(n+3){border-top:1px solid rgba(209,157,89,.45)}
   .cs-pedido__stat img{width:35px;height:35px}
   .cs-pedido__statnum{font-size:42px}
-  .cs-pedido__stat span{font-size:13px}
+  .cs-pedido__statlabel{font-size:13px}
   .cs-pedido__heading{flex-direction:column;align-items:flex-start;gap:12px;margin-top:36px}
   .cs-pedido__heading h2{font-size:clamp(36px,8vw,49px)}
   .cs-pedido__aside{font-size:16px;margin:0}
@@ -1385,7 +1409,7 @@ body.cursor-visible .cursor{opacity:1}
   .cs-pedido__next b{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-  .cs-pedido__cta,.cs-pedido__seal{animation:none!important;transition:none!important}
+  .cs-pedido__cta,.cs-pedido__seal,.cs-pedido__cta::before,.cs-pedido__seal::after{animation:none!important;transition:none!important}
 }
 
 /* Línea dorada corta reutilizada en notas de encabezado (Pedido, Ubicación) */

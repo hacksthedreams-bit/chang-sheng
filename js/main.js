@@ -244,11 +244,6 @@
     return result;
   }
 
-  function formatChileDateTime(date) {
-    var p = chileParts(date);
-    return p.day + '/' + p.month + '/' + p.year + ' ' + p.hour + ':' + p.minute;
-  }
-
   function chileDateISO() {
     var p = chileParts(new Date());
     return p.year + '-' + p.month + '-' + p.day;
@@ -577,26 +572,27 @@
   }
 
   function updateWaLink() {
-    var lines = ['[PEDIDO_WEB]', '🧾 *NUEVO PEDIDO WEB*', '*' + window.__BRAND__.name + '*'];
     if (!orderId) orderId = createOrderId();
-    lines.push('ID: ' + orderId);
-    lines.push('ORIGEN: PAGINA_WEB');
-    lines.push('FECHA_CHILE: ' + formatChileDateTime(new Date()));
-    lines.push('\n*PRODUCTOS*');
+    var p = chileParts(new Date());
+    var lines = [
+      '*' + window.__BRAND__.name + ' — Nuevo pedido web*',
+      'N° ' + orderId,
+      p.day + '-' + p.month + '-' + p.year + ' · ' + p.hour + ':' + p.minute + ' hrs',
+      '',
+      '*Productos*'
+    ];
     cart.forEach(function (item, i) {
-      var line = (i + 1) + '. ' + item.qty + ' × ' + item.name + ' — ' + fmtPrice(item.price * item.qty);
-      lines.push(line);
+      lines.push((i + 1) + '. ' + item.qty + 'x ' + item.name + ' — ' + fmtPrice(item.price * item.qty));
     });
     var total = cartTotal();
-    lines.push('\n*RESUMEN*');
-    lines.push('*TOTAL ESTIMADO: ' + fmtPrice(total) + '*');
+    lines.push('');
+    lines.push('*Total estimado: ' + fmtPrice(total) + '*');
     if (cartNotes.trim()) {
-      lines.push('\n*OBSERVACIONES*');
-      lines.push(cartNotes.trim());
+      lines.push('');
+      lines.push('*Observaciones:* ' + cartNotes.trim());
     }
-    lines.push('\nESTADO: PENDIENTE_CONFIRMACION');
-    lines.push('Quedo atento/a a la confirmación del restaurante.');
-    lines.push('[/PEDIDO_WEB]');
+    lines.push('');
+    lines.push('Pedido pendiente de confirmación del restaurante.');
     var text = encodeURIComponent(lines.join('\n'));
     var cartWaBtn = $('#cart-wa-btn');
     if (cartWaBtn) {
@@ -606,28 +602,25 @@
 
   /* ═══ RESERVATIONS ═══ */
   function buildReservationUrl(data) {
+    var p = chileParts(new Date());
     var lines = [
-      '[RESERVA_WEB]',
-      '📅 *NUEVA SOLICITUD DE RESERVA*',
-      '*' + window.__BRAND__.name + '*',
-      'ID: ' + createReservationId(),
-      'ORIGEN: PAGINA_WEB',
-      'ENVIADA_CHILE: ' + formatChileDateTime(new Date()),
+      '*' + window.__BRAND__.name + ' — Nueva solicitud de reserva*',
+      'N° ' + createReservationId(),
+      p.day + '-' + p.month + '-' + p.year + ' · ' + p.hour + ':' + p.minute + ' hrs',
       '',
-      '*DATOS DE LA RESERVA*',
-      'NOMBRE: ' + data.name,
-      'WHATSAPP: ' + data.phone,
-      'PERSONAS: ' + data.guests,
-      'FECHA_SOLICITADA: ' + formatDateForMessage(data.date),
-      'HORA_SOLICITADA: ' + data.time,
-      'OCASION: ' + data.eventType
+      '*Datos de la reserva*',
+      'Nombre: ' + data.name,
+      'WhatsApp: ' + data.phone,
+      'Personas: ' + data.guests,
+      'Fecha solicitada: ' + formatDateForMessage(data.date),
+      'Hora solicitada: ' + data.time,
+      'Ocasión: ' + data.eventType
     ];
     if (data.notes) {
-      lines.push('OBSERVACIONES: ' + data.notes);
+      lines.push('Observaciones: ' + data.notes);
     }
-    lines.push('', 'ESTADO: PENDIENTE_CONFIRMACION');
-    lines.push('Nota: la solicitud queda sujeta a disponibilidad y confirmación del restaurante.');
-    lines.push('[/RESERVA_WEB]');
+    lines.push('');
+    lines.push('Solicitud pendiente de confirmación del restaurante.');
     return 'https://wa.me/' + window.__BRAND__.phone + '?text=' + encodeURIComponent(lines.join('\n'));
   }
 

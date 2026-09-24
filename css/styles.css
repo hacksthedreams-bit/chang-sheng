@@ -1118,7 +1118,7 @@ body.cursor-visible .cursor{opacity:1}
 /* Divisor ornamental entre categorías */
 .menu-divider{
   display:flex;align-items:center;gap:16px;
-  max-width:680px;margin:clamp(28px,4vw,44px) auto 0;
+  max-width:680px;margin:clamp(28px,4vw,44px) auto;
   padding:0 clamp(12px,2vw,24px);
 }
 .menu-divider__line{

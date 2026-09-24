@@ -1653,7 +1653,7 @@ body.cursor-visible .cursor{opacity:1}
 }
 .section--faq::after{
   content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(10,8,6,.4),transparent 20%,transparent 80%,rgba(10,8,6,.5));
+  background:linear-gradient(180deg,rgba(10,8,6,.62) 0%,rgba(10,8,6,.74) 50%,rgba(10,8,6,.62) 100%);
 }
 .faq-title-row{display:flex;align-items:center;gap:16px}
 .faq-title-row .section-title{margin-bottom:0}
